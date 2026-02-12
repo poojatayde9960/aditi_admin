@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import { useLoginApiMutation } from "../../Redux/Apis/auth.Api";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const Login = () => {
   const [login, { isLoading }] = useLoginApiMutation();
@@ -94,7 +95,8 @@ const Login = () => {
 
           {/* MOBILE */}
           <div className="flex items-center gap-3 border-b border-white/50 py-2">
-            <Icon icon="fluent:call-28-regular" width={22} height={22} />
+            <RiLockPasswordLine width={22} height={22} />
+            {/* <Icon icon="fluent:call-28-regular" width={22} height={22} /> */}
 
             <input
               type="password"
@@ -115,7 +117,7 @@ const Login = () => {
 
           </div>
           {/* PHONE */}
-          <div className="flex items-center gap-3 border-b border-white/50 py-2">
+          {/* <div className="flex items-center gap-3 border-b border-white/50 py-2">
             <Icon icon="fluent:call-28-regular" width={22} height={22} />
 
             <input
@@ -130,7 +132,7 @@ const Login = () => {
       placeholder:text-[#D9D9D96B]
     "
             />
-          </div>
+          </div> */}
           <button
             type="submit"
             disabled={isLoading}

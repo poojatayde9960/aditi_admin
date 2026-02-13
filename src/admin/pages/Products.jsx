@@ -326,17 +326,17 @@ const Products = () => {
 
                     <td className="py-3 px-4 sm:py-5 sm:px-6 flex items-center gap-2 sm:gap-4">
                       <img
-                        src={p.bottleImg}
+                        src={p?.productDetailsSection?.productImages?.[0]}
                         alt=""
                         className="w-10 h-10 sm:w-14 sm:h-14 object-cover rounded-xl bg-white/10 p-1 sm:p-2"
                       />
                       <span className="text-white font-manrope text-sm sm:text-base">
-                        {p?.name}
+                        {p?.heroSection?.productName}
                       </span>
                     </td>
 
                     <td className="py-3 px-4 sm:py-5 sm:px-6 font-manrope text-sm sm:text-base">
-                      {p.price}
+                      €{p?.productDetailsSection?.priceEuro}
                     </td>
                     <td className="py-3 px-4 sm:py-5 sm:px-6 text-green-400 text-sm sm:text-base">
                       {p.stock}
@@ -409,15 +409,15 @@ const Products = () => {
               {/* PRODUCT INFO */}
               <div className="mt-6">
                 <h2 className="text-3xl font-manrope  leading-tight">
-                  {p?.name}
+                  {p.heroSection.productName}
                 </h2>
                 <p className="text-gray-400 text-xs mt-1 font-manrope truncate max-w-[250px]">
-                  {p?.description?.text}
+                  {p?.productDetailsSection?.shortDescription}
                 </p>
 
 
                 <div className="flex justify-between items-center mt-4">
-                  <p className="text-md font-manrope ">{p.amount}</p>
+                  <p className="text-md font-manrope ">€{p?.productDetailsSection?.priceEuro}</p>
                   <p className="text-[#0DFF00] font-manrope  text-base font-medium">
                     {p.stock} In stock
                   </p>

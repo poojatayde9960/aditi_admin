@@ -7,6 +7,7 @@ import { dashboardApi } from "./Apis/dashboardApi";
 import { giftsApi } from "./Apis/giftsApi";
 import { blogsApi } from "./Apis/blogsApi";
 import authSlice from "./slice/authSlice"
+import { enquiryApi } from "./Apis/enquiryApi";
 
 
 const store = configureStore({
@@ -18,6 +19,7 @@ const store = configureStore({
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [giftsApi.reducerPath]: giftsApi.reducer,
     [blogsApi.reducerPath]: blogsApi.reducer,
+    [enquiryApi.reducerPath]: enquiryApi.reducer,
 
     Auth: authSlice
 
@@ -32,6 +34,7 @@ const store = configureStore({
       .concat(dashboardApi.middleware)
       .concat(giftsApi.middleware)
       .concat(blogsApi.middleware)
+      .concat(enquiryApi.middleware)
 });
 
 export default store;

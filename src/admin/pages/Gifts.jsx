@@ -194,7 +194,7 @@ const Gifts = () => {
                                 <th className="p-4">Product Name</th>
                                 <th className="p-4">Amount</th>
                                 <th className="p-4">Stock</th>
-                                <th className="p-4">Sales</th>
+                                {/* <th className="p-4">Sales</th> */}
                                 <th className="p-4">Action</th>
                             </tr>
                         </thead>
@@ -209,8 +209,8 @@ const Gifts = () => {
                                             {gift.GiftName}
                                         </td>
                                         <td className="p-4">₹ {gift.Giftvalue}</td>
-                                        <td className="p-4 text-[#22FF00]">—</td>
-                                        <td className="p-4">—</td>
+                                        <td className="p-4 text-[#22FF00]">{gift.count}</td>
+                                        {/* <td className="p-4">{gift.count}</td> */}
                                         <td className="p-4 flex gap-2">
                                             <Pencil
                                                 size={16}

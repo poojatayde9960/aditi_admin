@@ -56,7 +56,7 @@ export default function CustomerDetails() {
     try {
       await adminGiftAssign({
         giftId: selectedGift._id,
-        userIds: userId,
+        userId: userId,
         Reasonforgift: giftReason
       }).unwrap();
 

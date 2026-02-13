@@ -3,34 +3,68 @@ import { FaSearch } from "react-icons/fa";
 import { LuDownload } from "react-icons/lu";
 import { FiFilter } from "react-icons/fi";
 import { Icon } from "@iconify/react";
+import { useEnquiryDeleteMutation, useEnquiryStatusMutation, useGetEnquiryQuery } from "../../Redux/Apis/enquiryApi";
 
 const Enquiries = () => {
-  const enquiries = [
-    {
-      name: "Sarah Chen",
-      email: "sarah@gmail.com",
-      phone: "+91 8585 202 202",
-      message: "Hi, I Haven’t Received My Order Yet. Can You Help?",
-      status: "Contacted",
-      statusColor: "bg-[#22FF0030] text-[#22FF00]",
-      date: "20/12/2025",
-      time: "10:00 AM",
-      showButton: false,
-    },
-    {
-      name: "Sarah Chen",
-      email: "sarah@gmail.com",
-      phone: "+91 8585 202 202",
-      message: "Hi, I Haven’t Received My Order Yet. Can You Help?",
-      status: "Pending",
-      statusColor: "bg-[#D9FF0030] text-[#D9FF00]",
-      date: "20/12/2025",
-      time: "10:00 AM",
-      showButton: true,
-    },
-  ];
+  const { data, isLoading, isError } = useGetEnquiryQuery();
+  const [deleteEnquiry, { isLoading: deleting }] = useEnquiryDeleteMutation()
+  const [updateStatus, { isLoading: updating }] = useEnquiryStatusMutation();
+  const [statusFilter, setStatusFilter] = React.useState("All");
+  const [filterOpen, setFilterOpen] = React.useState(false);
+  const [loadingId, setLoadingId] = React.useState(null);
+  const [deletingId, setDeletingId] = React.useState(null);
 
-  return (
+  const enquiries = data?.data?.map((item) => {
+    const dateObj = new Date(item.createdAt);
+
+    return {
+      id: item._id,
+      name: item.name,
+      email: item.email,
+      phone: item.contact,
+      message: "Customer enquiry received",
+      status: item.status?.trim(),
+      date: dateObj.toLocaleDateString("en-IN"),
+      time: dateObj.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+  }) || [];
+  const filteredEnquiries =
+    statusFilter === "All"
+      ? enquiries
+      : enquiries.filter((e) => e.status === statusFilter);
+  {
+    isLoading && (
+      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto mt-6">
+        <div className="animate-pulse flex space-x-4">
+          <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+
+          <div className="flex-1 space-y-6 py-1">
+            <div className="h-2 bg-slate-700 rounded"></div>
+
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+              </div>
+
+              <div className="h-2 bg-slate-700 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  { isError && <p className="text-red-500">Failed to load enquiries</p> }
+
+
+  return <>
+
+    {/* <pre className="ml-20">{JSON.stringify(data, null, 2)}</pre> */}
+
     <div className=" md:p-2 lg:ml-23  bg-[#020523] text-white min-h-screen">
       {/* TITLE */}
       <div className="flex justify-between">
@@ -74,11 +108,35 @@ const Enquiries = () => {
           </div>
 
           {/* STATUS FILTER */}
-          <button className="flex items-center gap-2 bg-[#0B1135] border border-white/40 px-5 py-3 rounded-xl ml-4 text-gray-300 hover:bg-white/10 transition">
-            <FiFilter className="text-xl" />
-            All Status
-            <span className="text-lg">▾</span>
-          </button>
+          <div className="relative ml-4">
+            <button
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="flex items-center gap-2 bg-[#0B1135] border border-white/40 px-5 py-3 rounded-xl text-gray-300 hover:bg-white/10 transition"
+            >
+              <FiFilter className="text-xl" />
+              {statusFilter}
+              <span className="text-lg">▾</span>
+            </button>
+
+            {filterOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-[#0B1135] border border-white/20 rounded-xl shadow-lg overflow-hidden z-50">
+                {["All", "Pending", "Contacted"].map((status) => (
+                  <button
+                    key={status}
+                    onClick={() => {
+                      setStatusFilter(status);
+                      setFilterOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 text-sm hover:bg-white/10 transition ${statusFilter === status ? "text-cyan-400" : "text-gray-300"
+                      }`}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
 
           {/* EXPORT */}
         </div>
@@ -101,13 +159,15 @@ const Enquiries = () => {
             </thead>
 
             <tbody className="text-gray-200">
-              {enquiries.map((e, index) => (
+              {filteredEnquiries.map((e, index) => (
+
                 <tr key={index} className="border-b border-white/5 align-top">
                   {/* CUSTOMER */}
                   <td className="py-6 px-6 flex items-center gap-3 whitespace-nowrap">
                     <div className="w-12 h-12 bg-[#141A3A] rounded-full flex items-center justify-center text-[#00c8ff] font-bold">
-                      SC
+                      {e.name?.slice(0, 2).toUpperCase()}
                     </div>
+
                     <div>
                       <p>{e.name}</p>
                       <p className="text-gray-400 text-sm">{e.email}</p>
@@ -123,11 +183,33 @@ const Enquiries = () => {
                   </td>
 
                   {/* STATUS */}
-                  <td className="py-6 px-6 whitespace-nowrap">
+                  {/* <td className="py-6 px-6 whitespace-nowrap">
                     <span className={`px-4 py-1 rounded-lg text-sm font-medium ${e.statusColor}`}>
                       {e.status}
                     </span>
+                  </td> */}
+                  <td className="py-6 px-6 whitespace-nowrap flex gap-2">
+                    {e.status === "Pending" ? (
+                      <button
+                        onClick={() => {
+                          setLoadingId(e.id);
+                          updateStatus({ id: e.id })
+                            .unwrap()
+                            .finally(() => setLoadingId(null));
+                        }}
+                        disabled={loadingId === e.id}
+                        className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-white rounded-xl text-sm"
+                      >
+                        {loadingId === e.id ? "Updating..." : "Mark as Contacted"}
+                      </button>
+
+                    ) : (
+                      <span className="text-green-400 text-sm font-medium flex items-center gap-1">
+                        ✔ Contacted
+                      </span>
+                    )}
                   </td>
+
 
                   {/* DATE */}
                   <td className="py-6 px-6 whitespace-nowrap">
@@ -137,11 +219,29 @@ const Enquiries = () => {
 
                   {/* ACTION */}
                   <td className="py-6 px-6 whitespace-nowrap">
-                      <button className="px-5 py-3 bg-[#FFFFFF1C] text-[#FFFFFF] rounded-2xl transition">
-                         <Icon icon="material-symbols-light:delete-rounded" className="text-2xl text-red-700 h-7" />
-                      </button>
-                    
+                    <button
+                      onClick={() => {
+                        if (window.confirm("Are you sure you want to delete this enquiry?")) {
+                          setDeletingId(e.id);
+                          deleteEnquiry({ id: e.id })
+                            .unwrap()
+                            .finally(() => setDeletingId(null));
+                        }
+                      }}
+                      disabled={deletingId === e.id}
+                      className="px-5 py-3 bg-[#FFFFFF1C] hover:bg-red-600/30 disabled:opacity-50 text-[#FFFFFF] rounded-2xl transition"
+                    >
+                      {deletingId === e.id ? (
+                        "Deleting..."
+                      ) : (
+                        <Icon
+                          icon="material-symbols-light:delete-rounded"
+                          className="text-2xl text-red-500 h-7"
+                        />
+                      )}
+                    </button>
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -150,7 +250,7 @@ const Enquiries = () => {
       </div>
 
     </div>
-  );
+  </>
 };
 
 export default Enquiries;

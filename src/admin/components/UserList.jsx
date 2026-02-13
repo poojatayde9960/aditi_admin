@@ -30,7 +30,7 @@ const UserList = () => {
     try {
       await adminGiftAssign({
         giftId: selectedGift._id,
-        userIds: [selectedUser.id],   // backend la array pahije
+        userId: [selectedUser.id],   // backend la array pahije
         Reasonforgift: giftReason
       }).unwrap();
 
@@ -271,8 +271,8 @@ const UserList = () => {
                 onClick={handleSendGift}
                 disabled={!selectedGift || !giftReason || isAssigningGift}
                 className={`px-5 py-2 rounded-lg ${selectedGift
-                    ? 'bg-blue-600 hover:bg-blue-700'
-                    : 'bg-gray-600 cursor-not-allowed'
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : 'bg-gray-600 cursor-not-allowed'
                   }`}
               >
                 {isAssigningGift ? "Sending..." : "Send Gift"}

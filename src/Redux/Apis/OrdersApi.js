@@ -39,7 +39,7 @@ export const OrderApi = createApi({
             getOrderDetailById: builder.query({
                 query: (orderId) => {
                     return {
-                        url: `/admin/users/getHisOrders/${orderId}`,
+                        url: `/admin/users/${orderId}`,
                         method: "GET"
                     }
                 },

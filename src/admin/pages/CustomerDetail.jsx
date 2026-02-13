@@ -71,11 +71,10 @@ export default function CustomerDetails() {
       alert("Failed to assign gift ❌");
     }
   };
-  // Extract orders from API response
-  const orders = orderData?.orders || [];
-
-  // Find the user from the users list
-  const user = usersData?.users?.find(u => u._id === userId);
+  // Extract user and orders from API response
+  const user = orderData?.user || usersData?.users?.find(u => u._id === userId);
+  const ongoingOrders = user?.ongoingOrdersList || [];
+  const completedOrders = user?.completedOrdersList || [];
 
   // No data state
   if (!user) {
@@ -246,19 +245,12 @@ export default function CustomerDetails() {
           {/* Orders List */}
           {activeTab === 'Ongoing Orders' && (
             <div className="space-y-4">
-              {orders.filter(order => {
-                const status = order.Status?.toLowerCase();
-                return status === 'processing' || status === 'shipped' || status === 'confirmed' || status === 'placed';
-              }).length === 0 ? (
+              {ongoingOrders.length === 0 ? (
                 <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
                   <p className="text-slate-400">No ongoing orders</p>
                 </div>
               ) : (
-                orders
-                  .filter(order => {
-                    const status = order.Status?.toLowerCase();
-                    return status === 'processing' || status === 'shipped' || status === 'confirmed' || status === 'placed';
-                  })
+                ongoingOrders
                   .map((order) => (
                     <div
                       key={order._id}
@@ -279,8 +271,8 @@ export default function CustomerDetails() {
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.Status)}`}>
-                            {order.Status || 'Unknown'}
+                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
+                            {order.status || order.Status || 'Unknown'}
                           </span>
                           <span className="text-2xl font-bold text-[#22FF00]">
                             ${order.totalAmount?.toLocaleString() || '0'}
@@ -346,7 +338,7 @@ export default function CustomerDetails() {
                                 { status: 'Shipped', key: 'shipped' },
                                 { status: 'Delivered', key: 'delivered' },
                               ].map((item, idx) => {
-                                const currentStatus = order.Status?.toLowerCase();
+                                const currentStatus = (order.status || order.Status)?.toLowerCase();
                                 const completed =
                                   (currentStatus === 'processing' && idx <= 2) ||
                                   (currentStatus === 'shipped' && idx <= 3) ||
@@ -430,19 +422,12 @@ export default function CustomerDetails() {
           {/* Completed Orders Tab */}
           {activeTab === 'Completed Orders' && (
             <div className="space-y-4">
-              {orders.filter(order => {
-                const status = order.Status?.toLowerCase();
-                return status === 'delivered' || status === 'cancelled' || status === 'completed';
-              }).length === 0 ? (
+              {completedOrders.length === 0 ? (
                 <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
                   <p className="text-slate-400">No completed orders</p>
                 </div>
               ) : (
-                orders
-                  .filter(order => {
-                    const status = order.Status?.toLowerCase();
-                    return status === 'delivered' || status === 'cancelled' || status === 'completed';
-                  })
+                completedOrders
                   .map((order) => (
                     <div
                       key={order._id}
@@ -463,8 +448,8 @@ export default function CustomerDetails() {
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.Status)}`}>
-                            {order.Status || 'Unknown'}
+                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
+                            {order.status || order.Status || 'Unknown'}
                           </span>
                           <span className="text-2xl font-bold text-[#22FF00]">
                             ${order.totalAmount?.toLocaleString() || '0'}
@@ -530,7 +515,7 @@ export default function CustomerDetails() {
                                 { status: 'Shipped', key: 'shipped' },
                                 { status: 'Delivered', key: 'delivered' },
                               ].map((item, idx) => {
-                                const currentStatus = order.Status?.toLowerCase();
+                                const currentStatus = (order.status || order.Status)?.toLowerCase();
                                 const completed =
                                   (currentStatus === 'processing' && idx <= 2) ||
                                   (currentStatus === 'shipped' && idx <= 3) ||

@@ -91,7 +91,7 @@ const Enquiries = () => {
         </div>
 
         <p className="mt-6 text-gray-400 text-sm">Total Enquiries</p>
-        <h2 className="text-3xl font-bold mt-2">520</h2>
+        <h2 className="text-3xl font-bold mt-2">{enquiries.length}</h2>
       </div>
 
       {/* SEARCH + FILTER */}

@@ -7,7 +7,7 @@ import {
   Line,
   ResponsiveContainer,
 } from "recharts";
-import { useGetUsersQuery } from "../../Redux/Apis/usersApi";
+import { useGetAverageMonthlyOrdersQuery, useGetUsersQuery } from "../../Redux/Apis/usersApi";
 
 const UserManagementSkeleton = () => {
   return (
@@ -93,8 +93,8 @@ const MiniSparkline = ({ data }) => {
 
 const UserManagement = () => {
   const { data: userData, isLoading, isError } = useGetUsersQuery();
-
-if (isLoading) return <UserManagementSkeleton />;
+  const { data: averageMonthlyOrdersData, isLoading: isAverageMonthlyOrdersLoading } = useGetAverageMonthlyOrdersQuery();
+  if (isLoading) return <UserManagementSkeleton />;
   if (isError) return <p>Something went wrong!</p>;
 
   const users = userData?.users || [];
@@ -140,7 +140,9 @@ if (isLoading) return <UserManagementSkeleton />;
     },
     {
       title: "Average Orders",
-      value: avgOrders.toFixed(1),
+      value: isAverageMonthlyOrdersLoading
+        ? "Loading..."
+        : averageMonthlyOrdersData?.avgOrdersPerMonth ?? 0,
       percent: "-12.5 % From Last Month",
       percentColor: "#AE000026",
       data: sparkData.avgOrders,

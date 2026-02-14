@@ -30,7 +30,7 @@ const UserList = () => {
     try {
       await adminGiftAssign({
         giftId: selectedGift._id,
-        userId: [selectedUser.id],   // backend la array pahije
+        userId: [selectedUser.id],
         Reasonforgift: giftReason
       }).unwrap();
 

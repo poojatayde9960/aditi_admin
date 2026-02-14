@@ -31,12 +31,14 @@ const Gifts = () => {
                     id: editGift._id,
                     GiftName: formData.GiftName,
                     Giftvalue: Number(formData.Giftvalue),
+                    count: Number(formData.count),
                 }).unwrap();
             } else {
                 // ➕ ADD
                 await addGift({
                     GiftName: formData.GiftName,
                     Giftvalue: Number(formData.Giftvalue),
+                    count: Number(formData.count),
                 }).unwrap();
             }
 
@@ -65,6 +67,7 @@ const Gifts = () => {
 
         setValue('GiftName', gift.GiftName);
         setValue('Giftvalue', gift.Giftvalue);
+        setValue('count', gift.count);
     };
     const filteredGifts = gifts.filter((gift) =>
         gift.GiftName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -267,6 +270,16 @@ const Gifts = () => {
                                 {...register('Giftvalue', { required: true })}
                                 className="w-full p-4 rounded-xl bg-[#05091d] mt-2"
                                 placeholder="Gift value"
+                            />
+                        </div>
+
+                        <div className="mb-8">
+                            <label className="text-sm text-gray-300">Count</label>
+                            <input
+                                {...register('count', { required: true })}
+                                className="w-full p-4 rounded-xl bg-[#05091d] mt-2"
+                                placeholder="Count"
+                                type="number"
                             />
                         </div>
 

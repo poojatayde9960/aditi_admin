@@ -167,7 +167,7 @@ const Orders = () => {
                 <th className="p-5">Date</th>
                 <th className="p-5">Payment</th>
                 <th className="p-5">View</th>
-                <th className="p-5">Action</th>
+                {/* <th className="p-5">Action</th> */}
               </tr>
             </thead>
             <tbody>

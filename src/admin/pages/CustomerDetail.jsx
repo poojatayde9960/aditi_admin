@@ -340,11 +340,13 @@ export default function CustomerDetails() {
                               ].map((item, idx) => {
                                 const currentStatus = (order.status || order.Status)?.toLowerCase();
                                 const completed =
-                                  (currentStatus === 'processing' && idx <= 2) ||
-                                  (currentStatus === 'shipped' && idx <= 3) ||
+                                  (currentStatus === 'completed' && idx <= 4) ||
                                   (currentStatus === 'delivered' && idx <= 4) ||
+                                  (currentStatus === 'shipped' && idx <= 3) ||
+                                  (currentStatus === 'processing' && idx <= 2) ||
                                   (currentStatus === 'confirmed' && idx <= 1) ||
-                                  (currentStatus === 'placed' && idx <= 0);
+                                  (currentStatus === 'placed' && idx <= 0) ||
+                                  (currentStatus === 'pending' && idx <= 0);
 
                                 return (
                                   <div key={idx} className="flex gap-4">
@@ -352,11 +354,11 @@ export default function CustomerDetails() {
                                       <div
                                         className={`w-10 h-10 rounded-full flex items-center justify-center ${completed
                                           ? 'border-2 border-cyan-500'
-                                          : 'border-2 border-slate-600'
+                                          : 'border-2 border-gray-500'
                                           }`}
                                       >
                                         <CheckCircle
-                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-slate-600'
+                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-gray-500'
                                             }`}
                                         />
                                       </div>
@@ -517,11 +519,13 @@ export default function CustomerDetails() {
                               ].map((item, idx) => {
                                 const currentStatus = (order.status || order.Status)?.toLowerCase();
                                 const completed =
-                                  (currentStatus === 'processing' && idx <= 2) ||
-                                  (currentStatus === 'shipped' && idx <= 3) ||
+                                  (currentStatus === 'completed' && idx <= 4) ||
                                   (currentStatus === 'delivered' && idx <= 4) ||
+                                  (currentStatus === 'shipped' && idx <= 3) ||
+                                  (currentStatus === 'processing' && idx <= 2) ||
                                   (currentStatus === 'confirmed' && idx <= 1) ||
-                                  (currentStatus === 'placed' && idx <= 0);
+                                  (currentStatus === 'placed' && idx <= 0) ||
+                                  (currentStatus === 'pending' && idx <= 0);
 
                                 return (
                                   <div key={idx} className="flex gap-4">
@@ -529,11 +533,11 @@ export default function CustomerDetails() {
                                       <div
                                         className={`w-10 h-10 rounded-full flex items-center justify-center ${completed
                                           ? 'border-2 border-cyan-500'
-                                          : 'border-2 border-slate-600'
+                                          : 'border-2 border-gray-500'
                                           }`}
                                       >
                                         <CheckCircle
-                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-slate-600'
+                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-gray-500'
                                             }`}
                                         />
                                       </div>

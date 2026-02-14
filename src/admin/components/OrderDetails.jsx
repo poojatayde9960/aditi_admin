@@ -162,34 +162,46 @@ const OrderDetails = ({ open, onClose, order }) => {
               "Processing",
               "Shipped",
               "Delivered",
-            ].map((step, index) => (
-              <div
-                key={index}
-                className="relative pb-8 flex items-center gap-4"
-              >
-                <div className="w-14 h-14 rounded-full bg-[#FFFFFF2E] flex items-center justify-center">
-                  <Icon
-                    icon="solar:check-circle-broken"
-                    width="28"
-                    height="28"
-                    className="text-[#00D4FF]"
-                  />
-                </div>
+            ].map((step, index) => {
+              const currentStatus = (orderData?.status || orderData?.Status || 'Pending')?.toLowerCase();
+              const completed =
+                (currentStatus === 'completed' && index <= 4) ||
+                (currentStatus === 'delivered' && index <= 4) ||
+                (currentStatus === 'shipped' && index <= 3) ||
+                (currentStatus === 'processing' && index <= 2) ||
+                (currentStatus === 'confirmed' && index <= 1) ||
+                (currentStatus === 'placed' && index <= 0) ||
+                (currentStatus === 'pending' && index <= 0);
 
-                {index < 4 && (
-                  <div className="absolute left-[29px] top-[60%] w-[1px] h-10 bg-[#FFFFFF4A]" />
-                )}
+              return (
+                <div
+                  key={index}
+                  className="relative pb-8 flex items-center gap-4"
+                >
+                  <div className="w-14 h-14 rounded-full bg-[#FFFFFF2E] flex items-center justify-center">
+                    <Icon
+                      icon="solar:check-circle-broken"
+                      width="28"
+                      height="28"
+                      className={completed ? "text-[#00D4FF]" : "text-gray-500"}
+                    />
+                  </div>
 
-                <div>
-                  <p className="font-medium">{step}</p>
-                  <p className="text-gray-400 text-xs">
-                    {orderData?.createdAt
-                      ? new Date(orderData.createdAt).toLocaleString()
-                      : "N/A"}
-                  </p>
+                  {index < 4 && (
+                    <div className="absolute left-[29px] top-[60%] w-[1px] h-10 bg-[#FFFFFF4A]" />
+                  )}
+
+                  <div>
+                    <p className="font-medium">{step}</p>
+                    <p className="text-gray-400 text-xs">
+                      {orderData?.createdAt
+                        ? new Date(orderData.createdAt).toLocaleString()
+                        : "N/A"}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

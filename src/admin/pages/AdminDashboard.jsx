@@ -88,17 +88,17 @@ const AdminDashboard = () => {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
 
-        {/* Sales Performance - थोडं छोटं */}
+        {/* Sales Performance - */}
         <div className="lg:col-span-7 xl:col-span-6">
           <SalesPerformanceChart />
         </div>
 
-        {/* Sells By Perfume - अजून छोटं */}
+        {/* Sells By Perfume -  */}
         <div className="lg:col-span-3 xl:col-span-3">
           <SellsByPerfume />
         </div>
 
-        {/* Live Audience - मोठं */}
+        {/* Live Audience -  */}
         <div className="lg:col-span-3 xl:col-span-3">
           <LiveAudience />
         </div>

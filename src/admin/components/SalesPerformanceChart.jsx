@@ -24,7 +24,7 @@ const SalesPerformanceChart = () => {
 
   return (
     <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-full">
-      <h3 className="text-white text-lg font-semibold mb-1">Sales Performance</h3>
+      <h3 className="text-white text-lg font-semibold mb-1"></h3>
       <p className="text-gray-400 text-xs mb-6">Revenue & orders over time</p>
 
       <div className="h-[250px] w-full">

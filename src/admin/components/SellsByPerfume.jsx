@@ -1,4 +1,3 @@
-
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useGetSaleByPercentQuery } from "../../Redux/Apis/dashboardApi";
@@ -8,24 +7,43 @@ const COLORS = ["#EBFFBF", "#0017FA", "#AE0000", "#D207FF", "#00D4FF"];
 const SellsByPerfume = () => {
     const { data: apiData, isLoading } = useGetSaleByPercentQuery();
 
-    const rawData =
-        apiData?.data ||
-        apiData?.result?.data ||
-        apiData?.result ||
-        [];
+    const rawData = apiData?.data || [];
 
-    const chartData = rawData.map((item, index) => ({
-        name: item.name,
-        value: Number(item.percentage), // IMPORTANT
-        color: COLORS[index % COLORS.length],
-    }));
+    // Merge duplicate perfumes
+    const mergedData = rawData.reduce((acc, item) => {
+        const existing = acc.find((p) => p.name === item.name);
+        if (existing) {
+            existing.unitsSold += item.unitsSold || 0;
+        } else {
+            acc.push({
+                ...item,
+                unitsSold: item.unitsSold || 0,
+            });
+        }
+        return acc;
+    }, []);
+
+    const totalUnits = mergedData.reduce(
+        (sum, item) => sum + item.unitsSold,
+        0
+    );
+
+    const chartData = mergedData.map((item, index) => {
+        const realPercentage =
+            totalUnits > 0
+                ? ((item.unitsSold / totalUnits) * 100).toFixed(2)
+                : 0;
+
+        return {
+            name: item.name,
+            value: totalUnits > 0 ? Number(realPercentage) : 1, // 👈 fake equal slice if no sales
+            displayValue: realPercentage, // 👈 legend & tooltip sathi
+            color: COLORS[index % COLORS.length],
+        };
+    });
 
     if (isLoading) {
         return <p className="text-white">Loading...</p>;
-    }
-
-    if (!chartData.length) {
-        return <p className="text-gray-400">No data available</p>;
     }
 
     return (
@@ -55,7 +73,9 @@ const SellsByPerfume = () => {
                             </Pie>
 
                             <Tooltip
-                                formatter={(value) => `${value}%`}
+                                formatter={(value, name, props) =>
+                                    `${props.payload.displayValue}%`
+                                }
                                 contentStyle={{
                                     backgroundColor: "#020523",
                                     borderColor: "#ffffff20",
@@ -85,7 +105,7 @@ const SellsByPerfume = () => {
                             </span>
                         </div>
                         <span className="text-gray-400 font-medium">
-                            {item.value}%
+                            {item.displayValue}%
                         </span>
                     </div>
                 ))}

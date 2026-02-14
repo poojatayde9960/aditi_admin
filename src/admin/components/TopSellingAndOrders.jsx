@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useGetTopSellingQuery } from "../../Redux/Apis/dashboardApi";
 import { useGetOdersQuery } from "../../Redux/Apis/OrdersApi";
@@ -7,24 +6,22 @@ const TopSellingAndOrders = () => {
   const { data, isLoading } = useGetTopSellingQuery();
   const { data: ordersData, isLoading: ordersLoading } = useGetOdersQuery();
 
- 
-  const topSelling = data?.data
+  // ✅ TOP SELLING (Proper dynamic from your new response)
+  const topSelling = data?.data?.length
     ? [...data.data]
-      .sort((a, b) => b.totalSold - a.totalSold)
+      .sort((a, b) => (b.totalSold || 0) - (a.totalSold || 0))
       .slice(0, 5)
       .map((item, index) => ({
         id: index + 1,
         name: item.name,
-        sales: `${item.totalSold} Sales`,
-        price: `$${item.price}`,
-       percent: item.discount ? `${item.discount}%` : "0%",
-        percentColor:
-          item.stock > 0 ? "text-[#22FF0030]" : "text-red-500",
+        sales: `${item.totalSold || 0} Sales`,
+        price: `₹${item.price || 0}`,
+        totalSold: item.totalSold || 0,
       }))
     : [];
 
-  // order
-  const recentOrders = ordersData?.orders
+  // ✅ RECENT ORDERS
+  const recentOrders = ordersData?.orders?.length
     ? [...ordersData.orders]
       .sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -46,7 +43,8 @@ const TopSellingAndOrders = () => {
               : "bg-[#00D4FF0F] text-[#00D4FF]",
         name: order.userId?.name || "Customer",
         product:
-          order.products?.[0]?.productId?.name || "Multiple Products",
+          order.products?.[0]?.productId?.name ||
+          `${order.products?.length || 0} Products`,
         time: new Date(order.createdAt).toLocaleDateString(),
       }))
     : [];
@@ -59,91 +57,97 @@ const TopSellingAndOrders = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
 
       {/* LEFT: TOP SELLING PERFUMES */}
-      <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-4 sm:p-6 shadow-lg">
-        <h2 className="text-lg sm:text-xl text-white mb-1">
+      <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg">
+        <h2 className="text-xl text-white mb-1">
           Top Selling Perfumes
         </h2>
-        <p className="text-gray-400 text-[10px] sm:text-xs mb-4 sm:mb-6">
+        <p className="text-gray-400 text-xs mb-6">
           Best performers this month
         </p>
 
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-4">
           {topSelling.map((item) => (
             <div
               key={item.id}
-              className="w-full bg-[#020523]/40 rounded-xl flex justify-between items-center p-3 sm:p-4 hover:bg-[#1e2746]/60 transition-all duration-300"
+              className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4 hover:bg-[#1e2746]/60 transition-all duration-300"
             >
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#141b3d] flex items-center justify-center text-[#00d5ff] text-sm sm:text-base font-bold">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#141b3d] flex items-center justify-center text-[#00d5ff] font-bold">
                   {item.id}
                 </div>
                 <div>
-                  <p className="text-white text-xs sm:text-sm">
+                  <p className="text-white text-sm">
                     {item.name}
                   </p>
-                  <p className="text-gray-400 text-[10px] sm:text-xs">
+                  <p className="text-gray-400 text-xs">
                     {item.sales}
                   </p>
                 </div>
               </div>
 
               <div className="text-right">
-                <p className="text-white font-semibold text-xs sm:text-sm">
+                <p className="text-white font-semibold text-sm">
                   {item.price}
-                </p>
-                <p
-                  className={`text-[10px] sm:text-xs font-medium ${item.percentColor}`}
-                >
-                  {item.percent}
                 </p>
               </div>
             </div>
           ))}
+
+          {!topSelling.length && (
+            <p className="text-gray-400 text-sm text-center">
+              No perfumes available
+            </p>
+          )}
         </div>
       </div>
 
       {/* RIGHT: RECENT ORDERS */}
-      <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-4 sm:p-6 shadow-lg">
-        <h2 className="text-lg sm:text-xl text-white mb-1">
+      <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg">
+        <h2 className="text-xl text-white mb-1">
           Recent Orders
         </h2>
-        <p className="text-gray-400 text-[10px] sm:text-xs mb-4 sm:mb-6">
+        <p className="text-gray-400 text-xs mb-6">
           Latest Order Activity
         </p>
 
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-4">
           {recentOrders.map((order, index) => (
             <div
               key={index}
-              className="w-full bg-[#020523]/40 rounded-xl flex justify-between items-center p-3 sm:p-4 hover:bg-[#1e2746]/60 transition-all duration-300"
+              className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4 hover:bg-[#1e2746]/60 transition-all duration-300"
             >
-              <div className="flex items-start gap-3 sm:gap-4">
+              <div className="flex items-start gap-4">
                 <div className="w-2 h-2 bg-[#00d5ff] rounded-full mt-2 shadow-[0_0_8px_#00d5ff]"></div>
 
                 <div>
-                  <div className="flex items-center gap-2 sm:gap-3 mb-1">
-                    <p className="text-white text-xs sm:text-sm font-medium">
+                  <div className="flex items-center gap-3 mb-1">
+                    <p className="text-white text-sm font-medium">
                       {order.orderId}
                     </p>
                     <span
-                      className={`text-[8px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md ${order.statusColor}`}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${order.statusColor}`}
                     >
                       {order.status}
                     </span>
                   </div>
 
-                  <p className="text-gray-400 text-[10px] sm:text-xs">
-                    {order.name} <span className="mx-1">•</span>{" "}
-                    {order.product}
+                  <p className="text-gray-400 text-xs">
+                    {order.name} • {order.product}
                   </p>
                 </div>
               </div>
 
-              <p className="text-gray-400 text-[10px] sm:text-xs whitespace-nowrap">
+              <p className="text-gray-400 text-xs whitespace-nowrap">
                 {order.time}
               </p>
             </div>
           ))}
+
+          {!recentOrders.length && (
+            <p className="text-gray-400 text-sm text-center">
+              No recent orders
+            </p>
+          )}
         </div>
       </div>
 

@@ -6,10 +6,11 @@ import SellsByPerfume from "../components/SellsByPerfume";
 import LiveAudience from "../components/LiveAudience";
 import TopSellingAndOrders from "../components/TopSellingAndOrders"; // Keeping this for now, will refactor next if needed
 import { Icon } from "@iconify/react";
-import { useGetCardstatusQuery } from "../../Redux/Apis/dashboardApi";
+import { useGetCardstatusQuery, useGetUserConversionRateQuery } from "../../Redux/Apis/dashboardApi";
 const AdminDashboard = () => {
 
   const { data, isLoading } = useGetCardstatusQuery();
+  const { data: conversionRateData, isLoading: isConversionRateLoading } = useGetUserConversionRateQuery();
   // Precise data to match the screenshot curve
   const revenueData = [
     { uv: 12 }, { uv: 13 }, { uv: 14 }, { uv: 15 }, { uv: 18 }, { uv: 19 }, { uv: 20 }, { uv: 22 }, { uv: 26 }, { uv: 34 }, { uv: 38 }, { uv: 40 }
@@ -47,7 +48,9 @@ const AdminDashboard = () => {
     },
     {
       title: "Conversion Rate",
-      value: "3.20%",
+      value: isConversionRateLoading
+        ? "Loading..."
+        : conversionRateData?.conversionRate ?? "0%",
       percent: "+12.5%",
       icon: "famicons:analytics",
       chartColor: "#00d5ff",
@@ -56,7 +59,11 @@ const AdminDashboard = () => {
   ];
 
 
-  return (
+  return <>
+
+    {/* <pre className="ml-20">{JSON.stringify(conversionRateData, null, 2)}</pre> */}
+
+
     <div className="min-h-screen lg:ml-23 overflow-hidden  text-white  pb-10">
 
       {/* Page Header */}
@@ -106,7 +113,7 @@ const AdminDashboard = () => {
       </div>
 
     </div>
-  );
+  </>
 };
 
 export default AdminDashboard;

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 export const dashboardApi = createApi({
     reducerPath: "dashboardApi",
     baseQuery: fetchBaseQuery({
-       baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
+        baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
         credentials: "include",
     }),
     tagTypes: ["dashboard"],
@@ -13,6 +13,15 @@ export const dashboardApi = createApi({
                 query: () => {
                     return {
                         url: "/getDashboardStat",
+                        method: "GET"
+                    }
+                },
+                providesTags: ["dashboard"]
+            }),
+            getUserConversionRate: builder.query({
+                query: () => {
+                    return {
+                        url: "/getUserConversionRate",
                         method: "GET"
                     }
                 },
@@ -56,4 +65,4 @@ export const dashboardApi = createApi({
     }
 })
 
-export const { useGetCardstatusQuery, useGetTopSellingQuery, useGetSaleByPercentQuery, useGetSaleByMonthlyQuery } = dashboardApi
+export const { useGetCardstatusQuery, useGetUserConversionRateQuery, useGetTopSellingQuery, useGetSaleByPercentQuery, useGetSaleByMonthlyQuery } = dashboardApi

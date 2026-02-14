@@ -14,23 +14,24 @@ const Enquiries = () => {
   const [loadingId, setLoadingId] = React.useState(null);
   const [deletingId, setDeletingId] = React.useState(null);
 
-  const enquiries = data?.data?.map((item) => {
-    const dateObj = new Date(item.createdAt);
+  const enquiries =
+    data?.data?.map((item) => {
+      const dateObj = new Date(item.createdAt);
 
-    return {
-      id: item._id,
-      name: item.name,
-      email: item.email,
-      phone: item.contact,
-      message: "Customer enquiry received",
-      status: item.status?.trim(),
-      date: dateObj.toLocaleDateString("en-IN"),
-      time: dateObj.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-  }) || [];
+      return {
+        id: item._id,
+        name: item.name,
+        email: item.email,
+        phone: item.contact,
+        message: item.message, // ✅ dynamic message
+        status: item.status?.trim(),
+        date: dateObj.toLocaleDateString("en-IN"),
+        time: dateObj.toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+    }) || [];
   const filteredEnquiries =
     statusFilter === "All"
       ? enquiries

@@ -100,12 +100,27 @@ export default function CustomerDetails() {
   };
 
   // Format date
+  // Date only
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    if (!dateString) return "N/A";
+
+    return new Date(dateString).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Date + Time
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "N/A";
+
+    return new Date(dateString).toLocaleString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -508,55 +523,63 @@ export default function CustomerDetails() {
 
                           {/* Order Timeline */}
                           <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Tracking</h4>
+                            <h4 className="text-slate-400 text-sm mb-4 font-medium">
+                              Order Tracking
+                            </h4>
+
                             <div className="space-y-4">
                               {[
-                                { status: 'Order Placed', key: 'placed' },
-                                { status: 'Payment Confirmed', key: 'confirmed' },
-                                { status: 'Processing', key: 'processing' },
-                                { status: 'Shipped', key: 'shipped' },
-                                { status: 'Delivered', key: 'delivered' },
-                              ].map((item, idx) => {
-                                const currentStatus = (order.status || order.Status)?.toLowerCase();
-                                const completed =
-                                  (currentStatus === 'completed' && idx <= 4) ||
-                                  (currentStatus === 'delivered' && idx <= 4) ||
-                                  (currentStatus === 'shipped' && idx <= 3) ||
-                                  (currentStatus === 'processing' && idx <= 2) ||
-                                  (currentStatus === 'confirmed' && idx <= 1) ||
-                                  (currentStatus === 'placed' && idx <= 0) ||
-                                  (currentStatus === 'pending' && idx <= 0);
+                                { label: "Order Placed", key: "Pending" },
+                                { label: "Payment Confirmed", key: "PaymentConfirmed", static: true }, // always grey
+                                { label: "Processing", key: "Processing" },
+                                { label: "Shipped", key: "Shipped" },
+                                { label: "Completed", key: "Completed" },
+                              ].map((step, idx) => {
+
+                                // Find status in history
+                                const historyItem = order.statusHistory?.find(
+                                  (h) => h.status === step.key
+                                );
+
+                                const isCompleted = !!historyItem && !step.static;
 
                                 return (
                                   <div key={idx} className="flex gap-4">
+                                    {/* Icon + Line */}
                                     <div className="flex flex-col items-center">
                                       <div
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center ${completed
-                                          ? 'border-2 border-cyan-500'
-                                          : 'border-2 border-gray-500'
+                                        className={`w-10 h-10 rounded-full flex items-center justify-center ${isCompleted
+                                          ? "border-2 border-cyan-500"
+                                          : "border-2 border-gray-500"
                                           }`}
                                       >
                                         <CheckCircle
-                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-gray-500'
+                                          className={`w-5 h-5 ${isCompleted ? "text-cyan-400" : "text-gray-500"
                                             }`}
                                         />
                                       </div>
+
                                       {idx < 4 && (
                                         <div className="w-0.5 h-12 bg-slate-700 mt-2"></div>
                                       )}
                                     </div>
-                                    <div className={idx < 4 ? 'pb-6' : ''}>
+
+                                    {/* Text */}
+                                    <div className={idx < 4 ? "pb-6" : ""}>
                                       <h5
-                                        className={`font-medium ${completed ? 'text-white' : 'text-slate-400'
+                                        className={`font-medium ${isCompleted ? "text-white" : "text-slate-400"
                                           }`}
                                       >
-                                        {item.status}
+                                        {step.label}
                                       </h5>
+
                                       <p
-                                        className={`text-sm ${completed ? 'text-slate-400' : 'text-slate-500'
+                                        className={`text-sm ${isCompleted ? "text-slate-400" : "text-slate-500"
                                           }`}
                                       >
-                                        {completed ? formatDate(order.createdAt) : 'Pending'}
+                                        {isCompleted
+                                          ? formatDateTime(historyItem.timestamp)
+                                          : "Pending"}
                                       </p>
                                     </div>
                                   </div>
@@ -564,7 +587,6 @@ export default function CustomerDetails() {
                               })}
                             </div>
                           </div>
-
                           {/* Shipping Address */}
                           <div className="bg-[#020523] rounded-xl p-6">
                             <h4 className="text-slate-400 text-sm mb-3 font-medium">Shipping Address</h4>

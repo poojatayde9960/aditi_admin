@@ -153,31 +153,54 @@ const OrderDetails = ({ open, onClose, order }) => {
           </div>
 
           {/* TIMELINE */}
+          {/* TIMELINE */}
           <div className="bg-[#0B1135] p-5 rounded-2xl border border-white/10">
             <h3 className="text-sm text-gray-400 mb-3">Order Timeline</h3>
 
             {[
-              "Order Placed",
+              "Pending",
               "Payment Confirmed",
               "Processing",
               "Shipped",
-              "Delivered",
+              "Completed",
             ].map((step, index) => {
-              const currentStatus = (orderData?.status || orderData?.Status || 'Pending')?.toLowerCase();
-              const completed =
-                (currentStatus === 'completed' && index <= 4) ||
-                (currentStatus === 'delivered' && index <= 4) ||
-                (currentStatus === 'shipped' && index <= 3) ||
-                (currentStatus === 'processing' && index <= 2) ||
-                (currentStatus === 'confirmed' && index <= 1) ||
-                (currentStatus === 'placed' && index <= 0) ||
-                (currentStatus === 'pending' && index <= 0);
+
+              const currentStatus =
+                orderData?.Status?.toLowerCase() || "pending";
+
+              const statusOrder = ["pending", "processing", "shipped", "completed"];
+
+              const currentIndex = statusOrder.indexOf(currentStatus);
+
+              let completed = false;
+
+              if (step === "Payment Confirmed") {
+                // 🔥 Static payment step
+                completed = orderData?.paymentStatus === "completed";
+              } else {
+                const stepIndex = statusOrder.indexOf(step.toLowerCase());
+                completed = stepIndex !== -1 && stepIndex <= currentIndex;
+              }
+
+              // 🔥 Timestamp logic
+              let timestamp = "—";
+
+              if (step === "Payment Confirmed") {
+                if (orderData?.paymentStatus === "completed") {
+                  timestamp = new Date(orderData.createdAt).toLocaleString("en-IN");
+                }
+              } else {
+                const historyItem = orderData?.statusHistory?.find(
+                  (s) => s.status.toLowerCase() === step.toLowerCase()
+                );
+
+                if (historyItem?.timestamp) {
+                  timestamp = new Date(historyItem.timestamp).toLocaleString("en-IN");
+                }
+              }
 
               return (
-                <div
-                  key={index}
-                  className="relative pb-8 flex items-center gap-4"
-                >
+                <div key={index} className="relative pb-8 flex items-center gap-4">
                   <div className="w-14 h-14 rounded-full bg-[#FFFFFF2E] flex items-center justify-center">
                     <Icon
                       icon="solar:check-circle-broken"
@@ -192,12 +215,10 @@ const OrderDetails = ({ open, onClose, order }) => {
                   )}
 
                   <div>
-                    <p className="font-medium">{step}</p>
-                    <p className="text-gray-400 text-xs">
-                      {orderData?.createdAt
-                        ? new Date(orderData.createdAt).toLocaleString()
-                        : "N/A"}
+                    <p className={`font-medium ${completed ? "text-white" : "text-gray-500"}`}>
+                      {step}
                     </p>
+                    <p className="text-gray-400 text-xs">{timestamp}</p>
                   </div>
                 </div>
               );

@@ -17,10 +17,13 @@ const SalesPerformanceChart = () => {
   const { data: saleByMonthlyData, isLoading } = useGetSaleByMonthlyQuery();
 
   // ✅ API → Chart data conversion
-  const chartData = saleByMonthlyData?.data?.map(item => ({
-    name: monthNames[item.month - 1],   // Jan, Feb...
-    uv: item.unitsSold                  // Y-axis value
-  })) || [];
+  const chartData =
+    saleByMonthlyData?.data
+      ?.map(item => ({
+        name: monthNames[item.month - 1],
+        unitsSold: item.unitsSold
+      }))
+      .reverse() || [];
 
   return (
     <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-full">
@@ -61,7 +64,7 @@ const SalesPerformanceChart = () => {
 
             <Line
               type="monotone"
-              dataKey="uv"
+              dataKey="unitsSold"
               stroke="#00d5ff"
               strokeWidth={3}
               dot={false}

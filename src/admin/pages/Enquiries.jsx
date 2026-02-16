@@ -189,28 +189,16 @@ const Enquiries = () => {
                       {e.status}
                     </span>
                   </td> */}
-                  <td className="py-6 px-6 whitespace-nowrap flex gap-2">
-                    {e.status === "Pending" ? (
-                      <button
-                        onClick={() => {
-                          setLoadingId(e.id);
-                          updateStatus({ id: e.id })
-                            .unwrap()
-                            .finally(() => setLoadingId(null));
-                        }}
-                        disabled={loadingId === e.id}
-                        className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-white rounded-xl text-sm"
-                      >
-                        {loadingId === e.id ? "Updating..." : "Mark as Contacted"}
-                      </button>
-
-                    ) : (
-                      <span className="text-green-400 text-sm font-medium flex items-center gap-1">
-                        ✔ Contacted
-                      </span>
-                    )}
+                  <td className="py-6 px-6 whitespace-nowrap">
+                    <span
+                      className={`px-4 py-2 rounded-xl text-sm font-medium ${e.status === "Pending"
+                        ? "bg-[#D9FF0030] text-[#D9FF00]"
+                        : "bg-[#22FF0030] text-[#22FF00]"
+                        }`}
+                    >
+                      {e.status}
+                    </span>
                   </td>
-
 
                   {/* DATE */}
                   <td className="py-6 px-6 whitespace-nowrap">

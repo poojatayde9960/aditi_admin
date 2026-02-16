@@ -66,48 +66,48 @@ const Orders = () => {
     }
   };
 
-  const getActionButton = (order) => {
-    const status = order.status;
-    if (activeTab === "All") return null;
+  // const getActionButton = (order) => {
+  //   const status = order.status;
+  //   if (activeTab === "All") return null;
 
-    if (status === "Pending") {
-      return (
-        <button
-          onClick={() => handleStatusChange(order.orderId, "Processing")}
-          disabled={isUpdating}
-          className="bg-[#00D4FF] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#00b8d9] disabled:opacity-50 transition"
-        >
-          {isUpdating ? "Updating..." : "Processing"}
-        </button>
-      );
-    }
-    if (status === "Processing") {
-      return (
-        <button
-          onClick={() => handleStatusChange(order.orderId, "Shipped")}
-          disabled={isUpdating}
-          className="bg-[#D207FF] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#b006d6] disabled:opacity-50 transition"
-        >
-          {isUpdating ? "Updating..." : "Shipped"}
-        </button>
-      );
-    }
-    if (status === "Shipped") {
-      return (
-        <button
-          onClick={() => handleStatusChange(order.orderId, "Completed")}
-          disabled={isUpdating}
-          className="bg-[#22FF00] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#1de600] disabled:opacity-50 transition"
-        >
-          {isUpdating ? "Updating..." : "Delivered"}
-        </button>
-      );
-    }
-    if (status === "Completed") {
-      return <span className="text-[#22FF00] text-sm font-medium">✓ Delivered</span>;
-    }
-    return null;
-  };
+  //   if (status === "Pending") {
+  //     return (
+  //       <button
+  //         onClick={() => handleStatusChange(order.orderId, "Processing")}
+  //         disabled={isUpdating}
+  //         className="bg-[#00D4FF] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#00b8d9] disabled:opacity-50 transition"
+  //       >
+  //         {isUpdating ? "Updating..." : "Processing"}
+  //       </button>
+  //     );
+  //   }
+  //   if (status === "Processing") {
+  //     return (
+  //       <button
+  //         onClick={() => handleStatusChange(order.orderId, "Shipped")}
+  //         disabled={isUpdating}
+  //         className="bg-[#D207FF] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#b006d6] disabled:opacity-50 transition"
+  //       >
+  //         {isUpdating ? "Updating..." : "Shipped"}
+  //       </button>
+  //     );
+  //   }
+  //   if (status === "Shipped") {
+  //     return (
+  //       <button
+  //         onClick={() => handleStatusChange(order.orderId, "Completed")}
+  //         disabled={isUpdating}
+  //         className="bg-[#22FF00] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#1de600] disabled:opacity-50 transition"
+  //       >
+  //         {isUpdating ? "Updating..." : "Delivered"}
+  //       </button>
+  //     );
+  //   }
+  //   if (status === "Completed") {
+  //     return <span className="text-[#22FF00] text-sm font-medium">✓ Delivered</span>;
+  //   }
+  //   return null;
+  // };
 
   return (
     <>
@@ -219,7 +219,7 @@ const Orders = () => {
                       onClick={() => { setSelectedOrder(order.raw); setDetailsOpen(true); }}
                     />
                   </td>
-                  <td className="p-4">{getActionButton(order)}</td>
+                  {/* <td className="p-4">{getActionButton(order)}</td> */}
                 </tr>
               ))}
             </tbody>

@@ -64,7 +64,7 @@ const AddProduct = () => {
     // States aligned with LATEST backend keys (POST/PUT format)
     const [gardenName, setGardenName] = useState("");
     const [productName, setProductName] = useState("");
-    const [subtitle, setSubtitle] = useState("");
+    const [category, setCategory] = useState("");
     const [price, setPrice] = useState("");
     const [quantityMl, setQuantityMl] = useState("");
     const [ingredientsMain, setIngredientsMain] = useState("");
@@ -111,7 +111,6 @@ const AddProduct = () => {
     const [comboImg, setComboImg] = useState(null);
 
     const [shortDescription4, setShortDescription4] = useState("");
-    const [subtextForEnd, setSubtextForEnd] = useState("");
     const [closingLine, setClosingLine] = useState("");
 
     // Populate data from nested GET structure
@@ -137,8 +136,7 @@ const AddProduct = () => {
 
                 setQuantityMl(p.productDetailsSection?.quantityMl || "");
                 setPrice(p.productDetailsSection?.price || "");
-                setSubtitle(p.productDetailsSection?.subtitle || "");
-                setSubtextForEnd(p.productDetailsSection?.subtitle || "");
+                setCategory(p.productDetailsSection?.category || "");
                 setIngredientsMain(p.productDetailsSection?.ingredients?.join(", ") || "");
                 setShortDescription4(p.productDetailsSection?.shortDescription || "");
                 setProductImages(p.productDetailsSection?.productImages || []);
@@ -192,15 +190,15 @@ const AddProduct = () => {
             const formData = new FormData();
             formData.append("productName", productName);
             formData.append("gardenName", gardenName);
-            formData.append("subtitle", subtitle);
+            formData.append("category", category);
             formData.append("price", price);
             formData.append("quantityMl", quantityMl);
             formData.append("ingredientsMain", ingredientsMain);
             formData.append("stock", stock);
 
-            formData.append("description1", description1);
-            formData.append("description2", description2);
-            formData.append("description3", description3);
+            formData.append("description1", description1 || description2 || description3 || productName);
+            formData.append("description2", description2 || description1 || description3 || productName);
+            formData.append("description3", description3 || description2 || description1 || productName);
 
             formData.append("sec7Title", sec7Title);
             formData.append("sec7Ingredients", sec7Ingredients);
@@ -261,12 +259,12 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="  mt-5  ml-20 min-h-screen text-white">
+        <div className="mt-5 px-4 md:px-8 md:ml-20 min-h-screen text-white">
             <div className="max-w-[1400px] mx-auto">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-10">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
                     <div>
-                        <h1 className="text-3xl font-manrope font-semibold">{isEditing ? "Edit Product" : "Add New Product"}</h1>
+                        <h1 className="text-2xl md:text-3xl font-manrope font-semibold">{isEditing ? "Edit Product" : "Add New Product"}</h1>
                         <p className="text-gray-400 font-manrope text-sm mt-1">{isEditing ? "Modify your existing perfume details" : "Create a new product for your collection"}</p>
                     </div>
                     <button
@@ -279,7 +277,7 @@ const AddProduct = () => {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col gap-8 bg-[#0B1135] border border-white/10 rounded-md p-10">
+                <div className="flex flex-col gap-8 bg-[#0B1135] border border-white/10 rounded-md p-4 md:p-10">
                     <div className="flex flex-col gap-6">
                         {/* Top Row */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -304,59 +302,59 @@ const AddProduct = () => {
                             </div>
                             <InputField
                                 label="Product Name"
-                                placeholder="e.g KĀLI ROUGE"
+                                placeholder="e.g Mahakali essence"
                                 value={productName}
                                 onChange={setProductName}
                             />
                             <InputField
-                                label="Subtitle"
-                                placeholder="e.g Eau de Parfum"
-                                value={subtitle}
-                                onChange={setSubtitle}
+                                label="Subtext For Hero"
+                                placeholder="e.g A petal of serene"
+                                value={category}
+                                onChange={setCategory}
                             />
                         </div>
 
                         {/* Description & Images Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <UploadField label="Hero Image (bgImage1)" value={bgImage1} onChange={setBgImage1} placeholder="Upload" />
-                            <InputField label="Description 1" placeholder="Enter Description" value={description1} onChange={setDescription1} />
-                            <InputField label="Ingredients Main" placeholder="Alcohol Denat, Aqua..." value={ingredientsMain} onChange={setIngredientsMain} />
+                            <UploadField label="Hero Image" value={bgImage1} onChange={setBgImage1} placeholder="Upload" />
+                            <InputField label="The Essence" placeholder="Enter" value={description2} onChange={setDescription2} />
+                            <UploadField label="Second Image" value={bgImage2} onChange={setBgImage2} placeholder="Upload" />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <UploadField label="Second Image (bgImage2)" value={bgImage2} onChange={setBgImage2} placeholder="Upload" />
-                            <InputField label="Description 2" placeholder="Enter Description" value={description2} onChange={setDescription2} />
-                            <InputField label="Short Description 4" placeholder="Enter Description" value={shortDescription4} onChange={setShortDescription4} />
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <UploadField label="Third Image (bgImage3)" value={bgImage3} onChange={setBgImage3} placeholder="Upload" />
-                            <InputField label="Description 3" placeholder="Enter Description" value={description3} onChange={setDescription3} />
-                            <div />
+                            <InputField label="The Living Source" placeholder="Enter" value={description3} onChange={setDescription3} />
+                            <UploadField label="Third Image" value={bgImage3} onChange={setBgImage3} placeholder="Upload" />
+                            <div className="hidden md:block" />
                         </div>
 
                         {/* Olfactive Architecture Section */}
                         <Section title="The Olfactive Architecture">
-                            <div className="flex flex-col gap-6">
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                                    <InputField label="Sec 7 Title" value={sec7Title} onChange={setSec7Title} />
-                                    <InputField label="Ingredients" value={sec7Ingredients} onChange={setSec7Ingredients} />
-                                    <InputField label="Description" value={sec7Description} onChange={setSec7Description} />
-                                    <UploadField label="Image (bgImage4)" value={bgImage4} onChange={setBgImage4} />
+                            <div className="flex flex-col gap-8">
+                                <div className="flex flex-col gap-3">
+                                    <p className="text-[14px] text-white/70 font-manrope ml-1">The First Breath</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                        <InputField placeholder="Ingredients" value={sec7Ingredients} onChange={setSec7Ingredients} />
+                                        <InputField placeholder="Description" value={sec7Description} onChange={setSec7Description} />
+                                        <UploadField placeholder="Image" value={bgImage4} onChange={setBgImage4} />
+                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                                    <InputField label="Sec 8 Title" value={sec8Title} onChange={setSec8Title} />
-                                    <InputField label="Ingredients" value={sec8Ingredients} onChange={setSec8Ingredients} />
-                                    <InputField label="Description" value={sec8Description} onChange={setSec8Description} />
-                                    <UploadField label="Image (bgImage5)" value={bgImage5} onChange={setBgImage5} />
+                                <div className="flex flex-col gap-3">
+                                    <p className="text-[14px] text-white/70 font-manrope ml-1">The Heart Awakens</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                        <InputField placeholder="Ingredients" value={sec8Ingredients} onChange={setSec8Ingredients} />
+                                        <InputField placeholder="Description" value={sec8Description} onChange={setSec8Description} />
+                                        <UploadField placeholder="Image" value={bgImage5} onChange={setBgImage5} />
+                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-                                    <InputField label="Sec 9 Title" value={sec9Title} onChange={setSec9Title} />
-                                    <InputField label="Ingredients" value={sec9Ingredients} onChange={setSec9Ingredients} />
-                                    <InputField label="Description" value={sec9Description} onChange={setSec9Description} />
-                                    <UploadField label="Image (bgImage6)" value={bgImage6} onChange={setBgImage6} />
+                                <div className="flex flex-col gap-3">
+                                    <p className="text-[14px] text-white/70 font-manrope ml-1">The Eternal Trace</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                        <InputField placeholder="Ingredients" value={sec9Ingredients} onChange={setSec9Ingredients} />
+                                        <InputField placeholder="Description" value={sec9Description} onChange={setSec9Description} />
+                                        <UploadField placeholder="Image" value={bgImage6} onChange={setBgImage6} />
+                                    </div>
                                 </div>
                             </div>
                         </Section>
@@ -364,46 +362,71 @@ const AddProduct = () => {
                         {/* The Ritual Section */}
                         <Section title="The Ritual">
                             <div className="flex flex-col gap-6">
-                                <InputField label="Ritual SubTitle" placeholder="this is the ritual" value={ritualSubTitle} onChange={setRitualSubTitle} />
+                                <InputField label="Heading" placeholder="Enter" value={ritualSubTitle} onChange={setRitualSubTitle} />
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <InputField label="Step 1" placeholder="Enter Text" value={step1} onChange={setStep1} />
-                                    <InputField label="Step 2" placeholder="Enter Text" value={step2} onChange={setStep2} />
-                                    <InputField label="Step 3" placeholder="Enter Text" value={step3} onChange={setStep3} />
+                                    <InputField label="Step 1" placeholder="Enter" value={step1} onChange={setStep1} />
+                                    <InputField label="Step 2" placeholder="Enter" value={step2} onChange={setStep2} />
+                                    <InputField label="Step 3" placeholder="text" value={step3} onChange={setStep3} />
                                 </div>
                             </div>
                         </Section>
 
                         {/* Pricing and Stock */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <InputField label="Quantity (Ml)" placeholder="e.g 100" value={quantityMl} onChange={setQuantityMl} />
-                            <InputField label="Price (€)" placeholder="e.g 120" value={price} onChange={setPrice} />
-                            <InputField label="Subtext For End" placeholder="Subtext For End" value={subtextForEnd} onChange={setSubtextForEnd} />
-                            <InputField label="Stock " placeholder="e.g 200" value={stock} onChange={setStock} />
-                            <InputField label="Closing Line" placeholder="e.g 200" value={closingLine} onChange={setClosingLine} />
-                            <UploadField label="Other Images" multiple={true} value={productImages} onChange={setProductImages} placeholder="Select Multiple Images" />
+                            <InputField label="Quantity" placeholder="e.g 100 ml" value={quantityMl} onChange={setQuantityMl} />
+                            <InputField label="Price" placeholder="Enter" value={price} onChange={setPrice} />
+                            <InputField label="Subtext For End" placeholder="Enter" value={shortDescription4} onChange={setShortDescription4} />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <UploadField label="Other Images" multiple={true} value={productImages} onChange={setProductImages} placeholder="Upload" />
+                            <InputField label="Closing Line" placeholder="Enter" value={closingLine} onChange={setClosingLine} />
+                            <InputField label="Stock" placeholder="E.g 200" value={stock} onChange={setStock} />
                         </div>
 
                         {/* Landing Page Details */}
-                        <Section title="Landing Page Details & Resonance">
+                        <Section title="Landing Page Section">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <InputField label="The Essence" placeholder="Enter Essence" value={theEssence} onChange={setTheEssence} />
-                                <InputField label="Spiritual Resonance" placeholder="Enter Resonance" value={spiritualResonance} onChange={setSpiritualResonance} />
-                                <InputField label="Olfactive Structure" placeholder="Enter Structure" value={olfactiveStructure} onChange={setOlfactiveStructure} />
+                                <UploadField label="Product Image" value={comboImg} onChange={setComboImg} placeholder="Upload" />
+                                <InputField label="The Essence" placeholder="Enter" value={theEssence} onChange={setTheEssence} />
+                                <InputField label="Spiritual Resonance" placeholder="Enter" value={spiritualResonance} onChange={setSpiritualResonance} />
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <InputField label="When To Wear" placeholder="Enter Occasion" value={whenToWear} onChange={setWhenToWear} />
-                                <UploadField label="Product Image" value={comboImg} onChange={setComboImg} placeholder="Upload" />
+                                <InputField label="Olfactive Structure" placeholder="Enter" value={olfactiveStructure} onChange={setOlfactiveStructure} />
+                                <InputField label="When To Wear" placeholder="Enter" value={whenToWear} onChange={setWhenToWear} />
                             </div>
                         </Section>
 
                         {/* Submit Button */}
-                        <div className="flex justify-center pt-8 pb-12 border-t border-white/10">
+                        {/* <div className="flex justify-center pt-8 pb-12 border-t border-white/10">
                             <button
                                 onClick={handleAddProduct}
                                 disabled={isLoading}
-                                className="px-24 py-5 bg-white text-[#020523] font-manrope font-bold rounded-xl hover:bg-gray-200 transition-all active:scale-[0.98] shadow-lg"
+                                className="w-full md:w-auto px-8 md:px-24 py-4 md:py-5 bg-white text-[#020523] font-manrope font-bold rounded-xl hover:bg-gray-200 transition-all active:scale-[0.98] shadow-lg"
                             >
                                 {isLoading ? (isEditing ? "Updating..." : "Adding...") : (isEditing ? "Update Product" : "Add Product")}
+                            </button>
+                        </div> */}
+                        <div className="flex justify-center">
+                            <button
+                                onClick={handleAddProduct}
+                                disabled={isLoading}
+                                className="
+    mt-6 w-full md:w-auto px-10 py-3
+    bg-gradient-to-r from-[#00D4FF] to-[#0077FF]
+    text-white text-lg font-medium
+    rounded-xl shadow-lg
+    hover:opacity-90 active:scale-95 transition
+    disabled:opacity-50 disabled:cursor-not-allowed
+  "
+                            >
+                                {isEditing
+                                    ? updateLoad
+                                        ? "Updating..."
+                                        : "Update Product"
+                                    : isLoading
+                                        ? "Adding..."
+                                        : "Add Product"}
                             </button>
                         </div>
                     </div>

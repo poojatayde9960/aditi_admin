@@ -7,9 +7,10 @@ import { useGetOrderDetailByIdQuery } from '../../Redux/Apis/OrdersApi';
 import { useGetUsersQuery } from '../../Redux/Apis/usersApi';
 import { useParams } from 'react-router-dom';
 import { useAdminGiftAssignMutation, useGetGiftsQuery, useGiftGetByIdQuery } from '../../Redux/Apis/giftsApi';
-
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 export default function CustomerDetails() {
-
+  const navigate = useNavigate();
   const { userId } = useParams();
   const [activeTab, setActiveTab] = useState('Ongoing Orders');
   const [isGiftOpen, setIsGiftOpen] = useState(false);
@@ -157,7 +158,13 @@ export default function CustomerDetails() {
             <h1 className="text-2xl md:text-3xl font-bold mb-2">Customer Details</h1>
             <p className="text-slate-400 text-sm">Manage Your Customer Base</p>
           </div>
-
+          <div
+            onClick={() => navigate("/admin/user-management")}
+            className="flex items-center gap-2 cursor-pointer text-sm text-gray-300 hover:text-white transition mb-6"
+          >
+            <ArrowLeft size={18} />
+            <span>User / Customer Details</span>
+          </div>
           {/* Debug Section */}
           {/* <div className="mb-6 p-6 bg-slate-800/50 border border-cyan-500 rounded-xl">
             <h2 className="text-2xl font-bold text-cyan-400 mb-4">API Response Data (Debug)</h2>

@@ -47,19 +47,19 @@ const Products = () => {
   };
 
   return (
-    <div className="p-8 mt-5 ml-20 min-h-screen text-white">
+    <div className="p-4 md:p-8 mt-5 md:ml-20 min-h-screen text-white">
       <div className="max-w-[1400px] mx-auto">
         {/* HEADER */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-manrope font-semibold">Products</h1>
+            <h1 className="text-2xl md:text-3xl font-manrope font-semibold">Products</h1>
             <p className="text-gray-400 font-manrope text-sm mt-1">
               Manage Your Perfume Collection
             </p>
           </div>
 
           <button
-            className="px-6 py-3 bg-[#00D4FF] text-white text-sm font-semibold rounded-xl hover:bg-[#14e1ff] transition-all shadow-lg active:scale-95"
+            className="w-full md:w-auto px-6 py-3 bg-[#00D4FF] text-white text-sm font-semibold rounded-xl hover:bg-[#14e1ff] transition-all shadow-lg active:scale-95"
             onClick={() => navigate("/admin/products/add")}
           >
             + Add Product
@@ -68,8 +68,8 @@ const Products = () => {
 
         {/* SEARCH + VIEW TOGGLE */}
         <div className="mb-10">
-          <div className="flex justify-between items-center bg-[#020523] border border-white/5 p-3 rounded-xl shadow-inner">
-            <div className="flex items-center gap-3 bg-[#0B1135] h-12 rounded-xl border border-white/10 w-[450px] px-4 group focus-within:border-[#00D4FF]/30 transition-all">
+          <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 bg-[#020523] border border-white/5 p-3 rounded-xl shadow-inner">
+            <div className="flex items-center gap-3 bg-[#0B1135] h-12 rounded-xl border border-white/10 w-full md:w-[450px] px-4 group focus-within:border-[#00D4FF]/30 transition-all">
               <Search
                 size={18}
                 className="text-gray-400 group-focus-within:text-[#00D4FF] transition-colors"
@@ -87,7 +87,7 @@ const Products = () => {
             </div>
 
             {/* Toggle */}
-            <div className="flex gap-2 bg-[#0B1135] border border-white/10 p-1 rounded-xl">
+            <div className="flex justify-center gap-2 bg-[#0B1135] border border-white/10 p-1 rounded-xl">
               <button
                 onClick={() => setLayout("grid")}
                 className={`p-2 rounded-lg transition-all ${layout === "grid"
@@ -120,10 +120,11 @@ const Products = () => {
               <table className="w-full min-w-[1000px] text-left border-collapse table-fixed">
                 <thead className="bg-white/[0.02] text-white text-xs font-bold uppercase tracking-wider border-b border-white/10">
                   <tr>
-                    <th className="py-5 px-10 w-[12%] font-manrope tracking-widest uppercase">ID</th>
-                    <th className="py-5 px-10 w-[43%] font-manrope tracking-widest text-center uppercase">Product Collection</th>
+                    <th className="py-5 px-10 w-[10%] font-manrope tracking-widest uppercase">ID</th>
+                    <th className="py-5 px-10 w-[30%] font-manrope tracking-widest text-center uppercase">Product Collection</th>
                     <th className="py-5 px-10 w-[15%] font-manrope tracking-widest text-center uppercase">Price (€)</th>
-                    <th className="py-5 px-10 w-[15%] font-manrope tracking-widest text-center uppercase">Stock Level</th>
+                    <th className="py-5 px-10 w-[15%] font-manrope tracking-widest text-center uppercase">Stock </th>
+                    <th className="py-5 px-10 w-[15%] font-manrope tracking-widest text-center uppercase">Sells</th>
                     <th className="py-5 px-10 w-[15%] font-manrope tracking-widest text-right uppercase">Actions</th>
                   </tr>
                 </thead>
@@ -161,6 +162,12 @@ const Products = () => {
                       <td className="py-6 px-10 text-center">
                         <span className="bg-green-500/10 text-green-400 px-4 py-1.5 rounded-full text-xs font-bold font-manrope border border-green-500/20">
                           {p.stock ?? 0} Units
+                        </span>
+                      </td>
+
+                      <td className="py-6 px-10 text-center">
+                        <span className="bg-[#00D4FF]/10 text-[#00D4FF] px-4 py-1.5 rounded-full text-xs font-bold font-manrope border border-[#00D4FF]/20">
+                          {p.totalSold ?? 0} Sells
                         </span>
                       </td>
 

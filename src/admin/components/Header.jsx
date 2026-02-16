@@ -21,9 +21,9 @@ const Header = ({ toggleSidebar, theme, setTheme }) => {
   const userName = admin?.name || admin?.user?.name || "Admin";
 
   return (
-    <header className="fixed top-0 right-0 z-10 
-      bg-white/5 backdrop-blur-xl border-b border-white/10 px-4 py-3
-      w-full md:w-[calc(100%-92px)] md:ml-23"
+    <header className="fixed top-0 right-0 z-40 
+      bg-[#020523]/80 backdrop-blur-xl border-b border-white/10 px-4 py-3
+      w-full md:w-[calc(100%-91px)] md:ml-[91px]"
     >
       <div className="w-full flex items-center justify-between">
 

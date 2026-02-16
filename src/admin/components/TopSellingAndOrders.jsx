@@ -48,7 +48,7 @@ const TopSellingAndOrders = () => {
         name: item.name,
         image: item.image,
         sales: `${item.totalSold} Sales`,
-        price: `₹${item.price}`,
+        price: `€${item.price}`,
         percent: `${percent}%`,
         percentColor:
           percent > 30

@@ -3,9 +3,9 @@ import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import { Icon } from "@iconify/react";
 
 const DashboardStatsCard = ({ title, value, icon, percent, chartColor, chartData, filterId }) => {
-    
+
     return (
-     <div className="relative bg-[#FFFFFF0A] border border-cyan-200  rounded-3xl p-6 
+        <div className="relative bg-[#FFFFFF0A] border border-cyan-200  rounded-3xl p-6 
     overflow-hidden shadow-lg group hover:shadow-2xl transition-all duration-300 
     min-h-[220px] flex flex-col justify-between">
 

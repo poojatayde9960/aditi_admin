@@ -102,12 +102,12 @@ const Gifts = () => {
     );
 
     return (
-        <div className="min-h-screen lg:ml-20 bg-[#05091d] text-white p-4 md:p-5 font-sans">
+        <div className="min-h-screen bg-[#020523] text-white font-sans">
 
             {/* --- HEADER --- */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                 <div>
-                    <h1 className="text-3xl font-semibold">Gifts</h1>
+                    <h1 className="page-header-title">Gifts</h1>
                     <p className="text-gray-400 text-sm">Manage Your Gift Collection</p>
                 </div>
                 <button
@@ -165,7 +165,7 @@ const Gifts = () => {
                                     <img src={giftsimg} className="h-10" alt="" />
                                     <div>
                                         <h3 className="text-xl font-medium">{gift.GiftName}</h3>
-                                        <p className="text-gray-400 mt-1">₹ {gift.Giftvalue}</p>
+                                        <p className="text-gray-400 mt-1">€ {gift.Giftvalue}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -198,35 +198,38 @@ const Gifts = () => {
                                 <th className="p-4">Amount</th>
                                 <th className="p-4">Stock</th>
                                 {/* <th className="p-4">Sales</th> */}
-                                <th className="p-4">Action</th>
+                                <th className="p-4 text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading
                                 ? Array.from({ length: 5 }).map((_, i) => <ListSkeleton key={i} />)
                                 : filteredGifts.map((gift) => (
-                                    <tr key={gift._id} className="border-b border-gray-800/50 hover:bg-white/5">
+                                    <tr key={gift._id} className="border-b border-gray-800/50 hover:bg-white/5 align-middle">
                                         <td className="p-4 font-mono">{gift._id}</td>
-                                        <td className="p-4 flex items-center gap-3">
-                                            <img src={giftsimg} className="h-6" alt="" />
-                                            {gift.GiftName}
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-3">
+                                                <img src={giftsimg} className="h-6" alt="" />
+                                                {gift.GiftName}
+                                            </div>
                                         </td>
-                                        <td className="p-4">₹ {gift.Giftvalue}</td>
+                                        <td className="p-4">€ {gift.Giftvalue}</td>
                                         <td className="p-4 text-[#22FF00]">{gift.count}</td>
                                         {/* <td className="p-4">{gift.count}</td> */}
-                                        <td className="p-4 flex gap-2">
-                                            <Pencil
-                                                size={16}
-                                                className="cursor-pointer"
-                                                onClick={() => handleEdit(gift)}
-                                            />
+                                        <td className="p-4">
+                                            <div className="flex justify-center gap-3">
+                                                <Pencil
+                                                    size={16}
+                                                    className="cursor-pointer"
+                                                    onClick={() => handleEdit(gift)}
+                                                />
 
-                                            <Trash2
-                                                size={16}
-                                                className="text-red-500 cursor-pointer"
-                                                onClick={() => handleDelete(gift._id)}
-                                            />
-
+                                                <Trash2
+                                                    size={16}
+                                                    className="text-red-500 cursor-pointer"
+                                                    onClick={() => handleDelete(gift._id)}
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

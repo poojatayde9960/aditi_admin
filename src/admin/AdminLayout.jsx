@@ -15,7 +15,7 @@ const AdminLayout = () => {
       <div className="flex flex-col flex-1 overflow-hidden relative">
         <Header toggleSidebar={toggleSidebar} />
 
-        <main className="flex-1 overflow-y-auto p-4 pt-24 bg-[#020523] text-white">
+        <main className="flex-1 overflow-y-auto pt-24 pb-10 md:ml-[91px] bg-[#020523] text-white px-4 md:px-10">
           <Outlet />
         </main>
       </div>

@@ -66,11 +66,11 @@ const Enquiries = () => {
 
     {/* <pre className="ml-20">{JSON.stringify(data, null, 2)}</pre> */}
 
-    <div className=" md:p-2 lg:ml-23  bg-[#020523] text-white min-h-screen">
+    <div className="bg-[#020523] text-white min-h-screen">
       {/* TITLE */}
       <div className="flex justify-between">
         <div>
-          <h1 className="text-3xl font-manrope">Enquiries</h1>
+          <h1 className="page-header-title">Enquiries</h1>
           <p className="text-gray-400 text-xs mt-1 font-manrope">Recent Enquiries History</p>
         </div>
         <button className="flex items-center gap-2 bg-[#0B1135] border border-white/10 px-5 py-3 rounded-xl ml-4 text-gray-300 hover:bg-white/10 transition">
@@ -92,7 +92,7 @@ const Enquiries = () => {
         </div>
 
         <p className="mt-6 text-gray-400 text-sm">Total Enquiries</p>
-        <h2 className="text-3xl font-bold mt-2">{enquiries.length}</h2>
+        <h2 className="text-3xl  font-manrope font-medium mt-2">{enquiries.length}</h2>
       </div>
 
       {/* SEARCH + FILTER */}
@@ -150,12 +150,12 @@ const Enquiries = () => {
           <table className="w-full text-left min-w-[700px] table-auto">
             <thead className="text-gray-400 text-sm border-b border-white/10">
               <tr>
-                <th className="py-4 px-6">Customer</th>
-                <th className="py-4 px-6">Contact</th>
-                <th className="py-4 px-6">Message</th>
-                <th className="py-4 px-6">Status</th>
-                <th className="py-4 px-6">Date</th>
-                <th className="py-4 px-6">Action</th>
+                <th className="py-4  font-manrope font-medium px-6">Customer</th>
+                <th className="py-4  font-manrope font-medium px-6">Contact</th>
+                <th className="py-4  font-manrope font-medium px-6">Message</th>
+                <th className="py-4  font-manrope font-medium px-6">Status</th>
+                <th className="py-4  font-manrope font-medium px-6">Date</th>
+                <th className="py-4 font-manrope font-medium px-6 text-center">Action</th>
               </tr>
             </thead>
 
@@ -171,15 +171,15 @@ const Enquiries = () => {
 
                     <div>
                       <p>{e.name}</p>
-                      <p className="text-gray-400 text-sm">{e.email}</p>
+                      <p className="text-gray-400  font-manrope text-sm">{e.email}</p>
                     </div>
                   </td>
 
                   {/* CONTACT */}
-                  <td className="py-6 px-6 text-gray-300 whitespace-nowrap">{e.phone}</td>
+                  <td className="py-6 px-6 text-gray-300  font-manrope whitespace-nowrap">{e.phone}</td>
 
                   {/* MESSAGE */}
-                  <td className="py-6 px-6 text-gray-300 max-w-xs break-words">
+                  <td className="py-6 px-6 text-gray-300  font-manrope max-w-xs break-words">
                     {e.message}
                   </td>
 
@@ -191,7 +191,7 @@ const Enquiries = () => {
                   </td> */}
                   <td className="py-6 px-6 whitespace-nowrap">
                     <span
-                      className={`px-4 py-2 rounded-xl text-sm font-medium ${e.status === "Pending"
+                      className={`px-4 py-2 rounded-xl text-sm font-manrope ${e.status === "Pending"
                         ? "bg-[#D9FF0030] text-[#D9FF00]"
                         : "bg-[#22FF0030] text-[#22FF00]"
                         }`}
@@ -202,33 +202,35 @@ const Enquiries = () => {
 
                   {/* DATE */}
                   <td className="py-6 px-6 whitespace-nowrap">
-                    <p className="text-[#FFFFFF]">{e.date}</p>
-                    <p className="text-sm text-[#FFFFFF]">{e.time}</p>
+                    <p className="text-[#FFFFFF]  font-manrope">{e.date}</p>
+                    <p className="text-sm text-[#FFFFFF]  font-manrope">{e.time}</p>
                   </td>
 
                   {/* ACTION */}
-                  <td className="py-6 px-6 whitespace-nowrap">
-                    <button
-                      onClick={() => {
-                        if (window.confirm("Are you sure you want to delete this enquiry?")) {
-                          setDeletingId(e.id);
-                          deleteEnquiry({ id: e.id })
-                            .unwrap()
-                            .finally(() => setDeletingId(null));
-                        }
-                      }}
-                      disabled={deletingId === e.id}
-                      className="px-5 py-3 bg-[#FFFFFF1C] hover:bg-red-600/30 disabled:opacity-50 text-[#FFFFFF] rounded-2xl transition"
-                    >
-                      {deletingId === e.id ? (
-                        "Deleting..."
-                      ) : (
-                        <Icon
-                          icon="material-symbols-light:delete-rounded"
-                          className="text-2xl text-red-500 h-7"
-                        />
-                      )}
-                    </button>
+                  <td className="py-6 px-6 whitespace-nowrap text-center">
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to delete this enquiry?")) {
+                            setDeletingId(e.id);
+                            deleteEnquiry({ id: e.id })
+                              .unwrap()
+                              .finally(() => setDeletingId(null));
+                          }
+                        }}
+                        disabled={deletingId === e.id}
+                        className="px-5 py-3 bg-[#FFFFFF1C] hover:bg-red-600/30 disabled:opacity-50 text-[#FFFFFF] rounded-2xl transition"
+                      >
+                        {deletingId === e.id ? (
+                          "Deleting..."
+                        ) : (
+                          <Icon
+                            icon="material-symbols-light:delete-rounded"
+                            className="text-2xl text-red-500 h-7"
+                          />
+                        )}
+                      </button>
+                    </div>
                   </td>
 
                 </tr>

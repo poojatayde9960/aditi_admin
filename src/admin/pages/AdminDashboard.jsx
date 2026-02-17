@@ -64,11 +64,11 @@ const AdminDashboard = () => {
     {/* <pre className="ml-20">{JSON.stringify(conversionRateData, null, 2)}</pre> */}
 
 
-    <div className="min-h-screen lg:ml-23 overflow-hidden  text-white  pb-10">
+    <div className="min-h-screen text-white">
 
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="font-manrope text-2xl ">Dashboard</h1>
+        <h1 className="page-header-title">Dashboard</h1>
         <p className="font-poppins text-gray-400 text-sm">Overview of performance and activity</p>
 
 

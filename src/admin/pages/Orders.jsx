@@ -27,6 +27,7 @@ const Orders = () => {
       id: order._id?.slice(-6) || "N/A",
       orderId: order._id,
       name: order.user?.name || "N/A",
+      email: order.user?.email || "N/A",
       contact,
       items: totalItems,
       amount: `₹${order.totalAmount?.toLocaleString("en-IN") || 0}`,
@@ -66,56 +67,15 @@ const Orders = () => {
     }
   };
 
-  // const getActionButton = (order) => {
-  //   const status = order.status;
-  //   if (activeTab === "All") return null;
 
-  //   if (status === "Pending") {
-  //     return (
-  //       <button
-  //         onClick={() => handleStatusChange(order.orderId, "Processing")}
-  //         disabled={isUpdating}
-  //         className="bg-[#00D4FF] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#00b8d9] disabled:opacity-50 transition"
-  //       >
-  //         {isUpdating ? "Updating..." : "Processing"}
-  //       </button>
-  //     );
-  //   }
-  //   if (status === "Processing") {
-  //     return (
-  //       <button
-  //         onClick={() => handleStatusChange(order.orderId, "Shipped")}
-  //         disabled={isUpdating}
-  //         className="bg-[#D207FF] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#b006d6] disabled:opacity-50 transition"
-  //       >
-  //         {isUpdating ? "Updating..." : "Shipped"}
-  //       </button>
-  //     );
-  //   }
-  //   if (status === "Shipped") {
-  //     return (
-  //       <button
-  //         onClick={() => handleStatusChange(order.orderId, "Completed")}
-  //         disabled={isUpdating}
-  //         className="bg-[#22FF00] text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#1de600] disabled:opacity-50 transition"
-  //       >
-  //         {isUpdating ? "Updating..." : "Delivered"}
-  //       </button>
-  //     );
-  //   }
-  //   if (status === "Completed") {
-  //     return <span className="text-[#22FF00] text-sm font-medium">✓ Delivered</span>;
-  //   }
-  //   return null;
-  // };
 
   return (
     <>
-      <div className="bg-[#020523] lg:ml-23 mt-5 min-h-screen text-white pb-10">
+      <div className="bg-[#020523] min-h-screen text-white">
         {/* Header */}
         <div className="flex justify-between items-start flex-col md:flex-row gap-4">
-          <div className="-mt-7">
-            <h1 className="text-3xl font-manrope">Orders</h1>
+          <div>
+            <h1 className="page-header-title">Orders</h1>
             <p className="text-gray-400 text-xs mt-1">Manage Customer Orders And Fulfillment</p>
           </div>
 
@@ -158,15 +118,15 @@ const Orders = () => {
         <div className="bg-[#0b1135] border border-white/10 rounded-3xl overflow-x-auto mt-8 shadow-xl">
           <table className="w-full min-w-[700px] text-left">
             <thead>
-              <tr className="text-gray-400 text-sm border-b border-white/10">
-                <th className="p-5">Order ID</th>
-                <th className="p-5">Customer</th>
-                <th className="p-5">Items</th>
-                <th className="p-5">Amount</th>
-                <th className="p-5">Status</th>
-                <th className="p-5">Date</th>
-                <th className="p-5">Payment</th>
-                <th className="p-5">View</th>
+              <tr className="text-[#A19F9F] font-manrope font-thin   text-sm border-b border-white/10">
+                <th className="p-5 font-manrope font-medium">Order ID</th>
+                <th className="p-5 font-manrope font-medium">Customer</th>
+                <th className="p-5 font-manrope font-medium">Items</th>
+                <th className="p-5 font-manrope font-medium">Amount</th>
+                <th className="p-5 font-manrope font-medium">Status</th>
+                <th className="p-5 font-manrope font-medium">Date</th>
+                <th className="p-5 font-manrope font-medium">Payment</th>
+                <th className="p-5 font-manrope font-medium">View</th>
                 {/* <th className="p-5">Action</th> */}
               </tr>
             </thead>
@@ -189,26 +149,26 @@ const Orders = () => {
 
               {filteredOrders.map((order, index) => (
                 <tr key={order.orderId || index} className="border-b border-white/5 hover:bg-white/5 transition">
-                  <td className="p-4 font-medium">{order.id}</td>
+                  <td className="p-4 font-medium text-[#FFFFFF]">{order.id}</td>
                   <td className="p-4 flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-[#1a214a] flex items-center justify-center text-[#00d2ff] font-semibold">
+                    <div className="w-12 h-12 rounded-full bg-[#1a214a] flex items-center justify-center text-[#00d2ff]  font-manrope">
                       {order.name?.[0]?.toUpperCase() ?? "?"}
                     </div>
                     <div>
-                      <p className="text-white">{order.name}</p>
-                      <p className="text-gray-400 text-sm">{order.contact}</p>
+                      <p className="text-white  font-manrope">{order.name}</p>
+                      <p className="text-gray-400 text-sm">{order.email}</p>
                     </div>
                   </td>
                   <td className="p-4 text-gray-300">{order.items}</td>
                   <td className="p-4 text-gray-300">{order.amount}</td>
-                  <td className="p-4">
-                    <span className={`px-4 py-1 rounded-lg text-sm font-medium ${statusStyles[order.status] || "bg-gray-600/30 text-gray-300"}`}>
+                  <td className="p-4  font-manrope">
+                    <span className={`px-4 py-1 rounded-lg text-sm  font-manrope  ${statusStyles[order.status] || "bg-gray-600/30 text-gray-300"}`}>
                       {order.status}
                     </span>
                   </td>
                   <td className="p-4 text-gray-300">{order.date}</td>
                   <td className="p-4">
-                    <span className="px-4 py-1 rounded-lg bg-[#22FF0030] text-[#22FF00] text-sm font-medium">
+                    <span className="px-4 py-1 rounded-lg bg-[#22FF0030] text-[#22FF00] text-sm font-manrope">
                       {order.paid}
                     </span>
                   </td>

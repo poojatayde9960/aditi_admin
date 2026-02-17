@@ -94,8 +94,8 @@ const UserList = () => {
         <div className="min-w-[1100px] ">
 
           {/* Header */}
-          <div className="grid grid-cols-8 text-gray-300 text-sm px-6 py-4 border-b border-white/20">
-            <span className="col-span-2">Customer</span>
+          <div className="grid grid-cols-8 text-[#A19F9F] font-manrope text-sm px-6 py-4 border-b border-white/20">
+            <span className="col-span-2 text-[#A19F9F]">Customer</span>
             <span>Location</span>
             <span>Contact</span>
             <span>Orders</span>
@@ -112,7 +112,7 @@ const UserList = () => {
             >
               {/* Customer */}
               <div className="col-span-2 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-white/10 text-[#00D4FF] flex items-center justify-center">
                   {getInitials(item.name)}
                 </div>
                 <div>
@@ -205,7 +205,7 @@ const UserList = () => {
                   <option value="">Choose a gift...</option>
                   {giftsData?.gifts?.map((gift) => (
                     <option key={gift._id} value={gift._id}>
-                      {gift.GiftName} - ${gift.Giftvalue} ({gift.count} available)
+                      {gift.GiftName} - €{gift.Giftvalue} ({gift.count} available)
                     </option>
                   ))}
                 </select>
@@ -228,7 +228,7 @@ const UserList = () => {
               {/* Gift Value */}
               <div>
                 <label className="block text-sm text-gray-300 mb-1">
-                  Gift Value ($) <span className="text-red-500">*</span>
+                  Gift Value (€) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"

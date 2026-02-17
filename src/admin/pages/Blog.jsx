@@ -154,12 +154,12 @@ const Blog = () => {
 
     // ================= UI =================
     return (
-        <div className="min-h-screen lg:ml-20 bg-[#05091d] text-white p-3 relative">
+        <div className="min-h-screen bg-[#020523] text-white relative">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl font-semibold">Blogs</h1>
+                    <h1 className="page-header-title">Blogs</h1>
                     <p className="text-gray-400 text-sm">
                         Manage Your Blogs Add & Delete Anytime
                     </p>
@@ -272,48 +272,63 @@ const Blog = () => {
                     {filteredBlogs.map((item) => (
                         <div
                             key={item._id}
-                            className="bg-[#0a102b] border border-gray-800 rounded-2xl p-4"
+                            className="bg-[#0B1135] border border-white/5 rounded-[2rem] p-6 group hover:border-[#00D4FF]/30 transition-all duration-300"
                         >
-                            <div className="flex gap-2 h-56">
-                                <div className="flex-[3] overflow-hidden rounded-lg">
-                                    <img
-                                        src={item.mainImage?.url || flower}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-
-                                <div className="flex-1 grid grid-rows-3 gap-2">
-                                    {item.otherImages?.slice(0, 3).map((img) => (
+                            {/* IMAGES CONTAINER */}
+                            <div className="relative h-64 mb-6 rounded-2xl overflow-hidden group">
+                                <div className="flex gap-2 h-full">
+                                    <div className="flex-[3] overflow-hidden">
                                         <img
-                                            key={img._id}
-                                            src={img.url}
-                                            className="w-full h-full object-cover rounded-lg"
+                                            src={item.mainImage?.url || flower}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                            alt=""
                                         />
-                                    ))}
+                                    </div>
+                                    <div className="flex-1 grid grid-rows-3 gap-2">
+                                        {item.otherImages?.slice(0, 3).map((img) => (
+                                            <img
+                                                key={img._id}
+                                                src={img.url}
+                                                className="w-full h-full object-cover"
+                                                alt=""
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
-
                             </div>
 
-                            <h3 className="text-xl font-bold mt-4">
+                            {/* TEXT CONTENT */}
+                            <h3 className="blog-headline-title mb-2 text-[#FFFFFF]">
                                 {item.headline}
                             </h3>
-                            <p className="text-gray-400 text-sm line-clamp-2">
+                            <p className=" text-sm  text-[#FFFFFF4D] font-manrope line-clamp-2 h-10 mb-6">
                                 {item.description}
                             </p>
 
-                            <div className="flex justify-between mt-4">
-                                <button className="flex items-center gap-2 text-sm font-medium hover:text-[#00c2ff] transition-colors group"> <span className="p-2 border border-gray-700 rounded-full group-hover:border-[#00c2ff]"> <MdArrowForwardIos size={16} /> </span> Read More </button>
-                                <div className="flex gap-2"> <button
-                                    onClick={() => handleEdit(item)}
-                                    className="flex items-center gap-2 underline underline-offset-4 px-4 py-2 rounded-lg text-sm"
-                                >
-                                    <Pencil size={16} /> Edit
+                            {/* ACTIONS */}
+                            <div className="flex justify-between items-center">
+                                <button className="flex items-center gap-3 text-white text-sm font-medium group transition-colors">
+                                    <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#00D4FF] group-hover:border-[#00D4FF] transition-all">
+                                        <Icon icon="solar:alt-arrow-right-linear" className="text-lg" />
+                                    </div>
+                                    Read More
                                 </button>
+
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        onClick={() => handleEdit(item)}
+                                        className="bg-[#1a2245] border border-gray-700 px-4 py-2 rounded-xl text-gray-300 hover:bg-[#252d58] transition-all flex items-center gap-2 text-sm"
+                                    >
+                                        <Pencil size={16} /> Edit
+                                    </button>
 
                                     <button
                                         onClick={() => handleDelete(item._id)}
-                                        className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg">
-                                        <Trash2 size={20} /> </button> </div>
+                                        className="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+                                    >
+                                        <Trash2 size={22} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

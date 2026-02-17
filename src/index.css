@@ -25,6 +25,43 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
+.page-header-title {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 25px !important;
+  line-height: 1 !important;
+  text-transform: capitalize !important;
+  color: #FFFFFF !important;
+}
+
+.section-header-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1;
+  /* 100% */
+  text-transform: capitalize;
+}
+
+.analytics-metric-value {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 25px !important;
+  line-height: 1 !important;
+  /* 100% */
+  text-transform: capitalize !important;
+  color: #FFFFFF !important;
+}
+
+.blog-headline-title {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 22.96px !important;
+  line-height: 28.7px !important;
+  text-transform: capitalize !important;
+  color: #FFFFFF !important;
+}
+
 
 /* Global Scrollbar Hide */
 ::-webkit-scrollbar {

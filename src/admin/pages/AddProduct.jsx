@@ -259,12 +259,12 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="mt-5 px-4 md:px-8 md:ml-20 min-h-screen text-white">
+        <div className="min-h-screen text-white">
             <div className="max-w-[1400px] mx-auto">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
                     <div>
-                        <h1 className="text-2xl md:text-3xl font-manrope font-semibold">{isEditing ? "Edit Product" : "Add New Product"}</h1>
+                        <h1 className="page-header-title">{isEditing ? "Edit Product" : "Add New Product"}</h1>
                         <p className="text-gray-400 font-manrope text-sm mt-1">{isEditing ? "Modify your existing perfume details" : "Create a new product for your collection"}</p>
                     </div>
                     <button

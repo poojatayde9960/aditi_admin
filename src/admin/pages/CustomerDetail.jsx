@@ -31,7 +31,7 @@ export default function CustomerDetails() {
   // Loading state
   if (isLoadingOrders || isLoadingUsers || isLoadingGifts) {
     return (
-      <div className="min-h-screen lg:ml-20 bg-[#020523] text-white p-5 flex items-center justify-center">
+      <div className="min-h-screen bg-[#020523] text-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-500 mx-auto mb-4"></div>
           <p className="text-xl text-cyan-400">Loading customer data...</p>
@@ -43,7 +43,7 @@ export default function CustomerDetails() {
   // Error state
   if (isErrorOrders || isErrorUsers) {
     return (
-      <div className="min-h-screen lg:ml-20 bg-[#020523] text-white p-5 flex items-center justify-center">
+      <div className="min-h-screen bg-[#020523] text-white flex items-center justify-center">
         <div className="bg-red-900/30 border border-red-500 rounded-xl p-8 max-w-md text-center">
           <h2 className="text-2xl font-bold text-red-400 mb-4">Error Loading Data</h2>
           <p className="text-red-300">There was an error fetching the customer details.</p>
@@ -151,22 +151,21 @@ export default function CustomerDetails() {
 
   return (
     <>
-      <div className="min-h-screen lg:ml-20 bg-[#020523] text-white p-5">
-        <div className="max-w-10xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">Customer Details</h1>
-            <p className="text-slate-400 text-sm">Manage Your Customer Base</p>
-          </div>
-          <div
-            onClick={() => navigate("/admin/user-management")}
-            className="flex items-center gap-2 cursor-pointer text-sm text-gray-300 hover:text-white transition mb-6"
-          >
-            <ArrowLeft size={18} />
-            <span>User / Customer Details</span>
-          </div>
-          {/* Debug Section */}
-          {/* <div className="mb-6 p-6 bg-slate-800/50 border border-cyan-500 rounded-xl">
+      <div className="min-h-screen bg-[#020523] text-white">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="page-header-title mb-2">Customer Details</h1>
+          <p className="text-slate-400 text-sm">Manage Your Customer Base</p>
+        </div>
+        <div
+          onClick={() => navigate("/admin/user-management")}
+          className="flex items-center gap-2 cursor-pointer text-sm text-gray-300 hover:text-white transition mb-6"
+        >
+          <ArrowLeft size={18} />
+          <span>User / Customer Details</span>
+        </div>
+        {/* Debug Section */}
+        {/* <div className="mb-6 p-6 bg-slate-800/50 border border-cyan-500 rounded-xl">
             <h2 className="text-2xl font-bold text-cyan-400 mb-4">API Response Data (Debug)</h2>
 
             <div className="mb-4 p-4 bg-slate-700/50 rounded-lg">
@@ -207,646 +206,645 @@ export default function CustomerDetails() {
             </div>
           </div> */}
 
-          {/* Customer Info Card */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-slate-700/50">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D207FF] to-[#00D4FF] flex items-center justify-center text-xl font-bold">
-                  {getInitials(user.name)}
+        {/* Customer Info Card */}
+        <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-slate-700/50">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D207FF] to-[#00D4FF] flex items-center justify-center text-xl font-bold">
+                {getInitials(user.name)}
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">{user.name || 'Unknown User'}</h2>
+                <p className="text-slate-400 text-sm">{user.email || 'No email'}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <div className="flex items-center gap-2 text-slate-300">
+                <MapPin className="w-4 h-4" />
+                <span>{primaryAddress?.country || 'Unknown Location'}</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-300">
+                <Calendar className="w-4 h-4" />
+                <span>Joined On {formatDate(user.createdAt)}</span>
+              </div>
+              <button
+                onClick={() => setIsGiftOpen(true)}
+                className="flex items-center gap-2 bg-gradient-to-r from-[#D207FF] to-[#00D4FF] hover:from-[#B806E0] hover:to-[#00B8E0] px-6 py-2 rounded-lg font-medium transition-all"
+              >
+                <IoGift className="text-lg" />
+                <span>Send Gift</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Total Spent */}
+          <div className="mt-6 pt-6 border-t border-slate-700/50">
+            <div className="text-3xl font-bold text-[#22FF00]">
+              $ {user.totalSpent?.toLocaleString() || '0'}
+            </div>
+            <div className="text-slate-400 text-sm">Total Spent</div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex items-center gap-2 md:gap-4 mb-6 overflow-x-auto md:overflow-visible pb-2 p-2 bg-[#00D4FF0F] rounded-full w-full md:w-fit">
+          {tabs.map((tab, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold whitespace-nowrap transition-all duration-300 ${activeTab === tab
+                ? 'bg-[#00d1ff] text-[#020b1d] shadow-[0_0_15px_rgba(0,209,255,0.4)]'
+                : 'bg-transparent text-white hover:text-slate-200'
+                }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Orders List */}
+        {activeTab === 'Ongoing Orders' && (
+          <div className="space-y-4">
+            {ongoingOrders.length === 0 ? (
+              <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
+                <p className="text-slate-400">No ongoing orders</p>
+              </div>
+            ) : (
+              ongoingOrders
+                .map((order) => (
+                  <div
+                    key={order._id}
+                    className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden"
+                  >
+                    {/* Order Header - Clickable */}
+                    <div
+                      className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-6 cursor-pointer hover:bg-slate-800/30 transition-colors"
+                      onClick={() => toggleOrderExpansion(order._id)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                          <HiOutlineShoppingBag className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold">Order #{order._id?.substring(0, 8).toUpperCase()}</h3>
+                          <p className="text-slate-400 text-sm">{formatDate(order.createdAt)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
+                          {order.status || order.Status || 'Unknown'}
+                        </span>
+                        <span className="text-2xl font-bold text-[#22FF00]">
+                          ${order.totalAmount?.toLocaleString() || '0'}
+                        </span>
+                        <ChevronDown
+                          className={`w-5 h-5 text-slate-400 transition-transform ${expandedOrderId === order._id ? 'rotate-180' : ''
+                            }`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Expanded Order Details */}
+                    {expandedOrderId === order._id && (
+                      <div className="px-6 pb-6 space-y-6">
+                        {/* Order Items */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Items</h4>
+                          <div className="space-y-4">
+                            {order.products?.map((product, idx) => (
+                              <div key={idx}>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-[#FFFFFF12] rounded-lg flex items-center justify-center overflow-hidden">
+                                      {product.productId?.images?.[0] ? (
+                                        <img
+                                          src={product.productId.images[0]}
+                                          className="h-12 w-12 object-cover"
+                                          alt={product.productId.name}
+                                        />
+                                      ) : (
+                                        <img src={img} className="h-12 w-8 object-cover" alt="" />
+                                      )}
+                                    </div>
+                                    <div>
+                                      <h5 className="font-medium">
+                                        {product.productId?.name || 'Product'}
+                                      </h5>
+                                      <p className="text-slate-400 text-sm">
+                                        Quantity: {product.quantity || 1}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="text-[#22FF00] font-semibold">
+                                    ${((product.price || 0) * (product.quantity || 1)).toLocaleString()}
+                                  </div>
+                                </div>
+                                {idx < (order.products?.length || 0) - 1 && (
+                                  <hr className="mt-4 border-slate-700" />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Order Timeline */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Tracking</h4>
+                          <div className="space-y-4">
+                            {[
+                              { status: 'Order Placed', key: 'placed' },
+                              { status: 'Payment Confirmed', key: 'confirmed' },
+                              { status: 'Processing', key: 'processing' },
+                              { status: 'Shipped', key: 'shipped' },
+                              { status: 'Delivered', key: 'delivered' },
+                            ].map((item, idx) => {
+                              const currentStatus = (order.status || order.Status)?.toLowerCase();
+                              const completed =
+                                (currentStatus === 'completed' && idx <= 4) ||
+                                (currentStatus === 'delivered' && idx <= 4) ||
+                                (currentStatus === 'shipped' && idx <= 3) ||
+                                (currentStatus === 'processing' && idx <= 2) ||
+                                (currentStatus === 'confirmed' && idx <= 1) ||
+                                (currentStatus === 'placed' && idx <= 0) ||
+                                (currentStatus === 'pending' && idx <= 0);
+
+                              return (
+                                <div key={idx} className="flex gap-4">
+                                  <div className="flex flex-col items-center">
+                                    <div
+                                      className={`w-10 h-10 rounded-full flex items-center justify-center ${completed
+                                        ? 'border-2 border-cyan-500'
+                                        : 'border-2 border-gray-500'
+                                        }`}
+                                    >
+                                      <CheckCircle
+                                        className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-gray-500'
+                                          }`}
+                                      />
+                                    </div>
+                                    {idx < 4 && (
+                                      <div className="w-0.5 h-12 bg-slate-700 mt-2"></div>
+                                    )}
+                                  </div>
+                                  <div className={idx < 4 ? 'pb-6' : ''}>
+                                    <h5
+                                      className={`font-medium ${completed ? 'text-white' : 'text-slate-400'
+                                        }`}
+                                    >
+                                      {item.status}
+                                    </h5>
+                                    <p
+                                      className={`text-sm ${completed ? 'text-slate-400' : 'text-slate-500'
+                                        }`}
+                                    >
+                                      {completed ? formatDate(order.createdAt) : 'Pending'}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Shipping Address */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-3 font-medium">Shipping Address</h4>
+                          <p className="text-slate-200">
+                            {order.addressId && typeof order.addressId === 'object'
+                              ? `${order.addressId.street || ''}, ${order.addressId.city || ''}, ${order.addressId.state || ''} ${order.addressId.pincode || ''}, ${order.addressId.country || ''}`
+                              : primaryAddress
+                                ? `${primaryAddress.street || ''}, ${primaryAddress.city || ''}, ${primaryAddress.state || ''} ${primaryAddress.pincode || ''}, ${primaryAddress.country || ''}`
+                                : `Address ID: ${order.addressId || 'Not available'}`}
+                          </p>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between text-slate-300">
+                            <span>Subtotal</span>
+                            <span>${(order.totalAmount || 0).toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-slate-300">
+                            <span>Shipping</span>
+                            <span>$0</span>
+                          </div>
+                          <div className="flex justify-between text-xl font-bold pt-2 border-t border-slate-700">
+                            <span>Total</span>
+                            <span className="text-[#22FF00]">${(order.totalAmount || 0).toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+            )}
+          </div>
+        )}
+
+        {/* Completed Orders Tab */}
+        {activeTab === 'Completed Orders' && (
+          <div className="space-y-4">
+            {completedOrders.length === 0 ? (
+              <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
+                <p className="text-slate-400">No completed orders</p>
+              </div>
+            ) : (
+              completedOrders
+                .map((order) => (
+                  <div
+                    key={order._id}
+                    className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden"
+                  >
+                    {/* Order Header - Clickable */}
+                    <div
+                      className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-6 cursor-pointer hover:bg-slate-800/30 transition-colors"
+                      onClick={() => toggleOrderExpansion(order._id)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                          <HiOutlineShoppingBag className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold">Order #{order._id?.substring(0, 8).toUpperCase()}</h3>
+                          <p className="text-slate-400 text-sm">{formatDate(order.createdAt)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
+                          {order.status || order.Status || 'Unknown'}
+                        </span>
+                        <span className="text-2xl font-bold text-[#22FF00]">
+                          ${order.totalAmount?.toLocaleString() || '0'}
+                        </span>
+                        <ChevronDown
+                          className={`w-5 h-5 text-slate-400 transition-transform ${expandedOrderId === order._id ? 'rotate-180' : ''
+                            }`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Expanded Order Details */}
+                    {expandedOrderId === order._id && (
+                      <div className="px-6 pb-6 space-y-6">
+                        {/* Order Items */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Items</h4>
+                          <div className="space-y-4">
+                            {order.products?.map((product, idx) => (
+                              <div key={idx}>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-[#FFFFFF12] rounded-lg flex items-center justify-center overflow-hidden">
+                                      {product.productId?.images?.[0] ? (
+                                        <img
+                                          src={product.productId.images[0]}
+                                          className="h-12 w-12 object-cover"
+                                          alt={product.productId.name}
+                                        />
+                                      ) : (
+                                        <img src={img} className="h-12 w-8 object-cover" alt="" />
+                                      )}
+                                    </div>
+                                    <div>
+                                      <h5 className="font-medium">
+                                        {product.productId?.name || 'Product'}
+                                      </h5>
+                                      <p className="text-slate-400 text-sm">
+                                        Quantity: {product.quantity || 1}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="text-[#22FF00] font-semibold">
+                                    ${((product.price || 0) * (product.quantity || 1)).toLocaleString()}
+                                  </div>
+                                </div>
+                                {idx < (order.products?.length || 0) - 1 && (
+                                  <hr className="mt-4 border-slate-700" />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Order Timeline */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-4 font-medium">
+                            Order Tracking
+                          </h4>
+
+                          <div className="space-y-4">
+                            {[
+                              { label: "Order Placed", key: "Pending" },
+                              { label: "Payment Confirmed", key: "PaymentConfirmed", static: true }, // always grey
+                              { label: "Processing", key: "Processing" },
+                              { label: "Shipped", key: "Shipped" },
+                              { label: "Completed", key: "Completed" },
+                            ].map((step, idx) => {
+
+                              // Find status in history
+                              const historyItem = order.statusHistory?.find(
+                                (h) => h.status === step.key
+                              );
+
+                              const isCompleted = !!historyItem && !step.static;
+
+                              return (
+                                <div key={idx} className="flex gap-4">
+                                  {/* Icon + Line */}
+                                  <div className="flex flex-col items-center">
+                                    <div
+                                      className={`w-10 h-10 rounded-full flex items-center justify-center ${isCompleted
+                                        ? "border-2 border-cyan-500"
+                                        : "border-2 border-gray-500"
+                                        }`}
+                                    >
+                                      <CheckCircle
+                                        className={`w-5 h-5 ${isCompleted ? "text-cyan-400" : "text-gray-500"
+                                          }`}
+                                      />
+                                    </div>
+
+                                    {idx < 4 && (
+                                      <div className="w-0.5 h-12 bg-slate-700 mt-2"></div>
+                                    )}
+                                  </div>
+
+                                  {/* Text */}
+                                  <div className={idx < 4 ? "pb-6" : ""}>
+                                    <h5
+                                      className={`font-medium ${isCompleted ? "text-white" : "text-slate-400"
+                                        }`}
+                                    >
+                                      {step.label}
+                                    </h5>
+
+                                    <p
+                                      className={`text-sm ${isCompleted ? "text-slate-400" : "text-slate-500"
+                                        }`}
+                                    >
+                                      {isCompleted
+                                        ? formatDateTime(historyItem.timestamp)
+                                        : "Pending"}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        {/* Shipping Address */}
+                        <div className="bg-[#020523] rounded-xl p-6">
+                          <h4 className="text-slate-400 text-sm mb-3 font-medium">Shipping Address</h4>
+                          <p className="text-slate-200">
+                            {order.addressId && typeof order.addressId === 'object'
+                              ? `${order.addressId.street || ''}, ${order.addressId.city || ''}, ${order.addressId.state || ''} ${order.addressId.pincode || ''}, ${order.addressId.country || ''}`
+                              : primaryAddress
+                                ? `${primaryAddress.street || ''}, ${primaryAddress.city || ''}, ${primaryAddress.state || ''} ${primaryAddress.pincode || ''}, ${primaryAddress.country || ''}`
+                                : `Address ID: ${order.addressId || 'Not available'}`}
+                          </p>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between text-slate-300">
+                            <span>Subtotal</span>
+                            <span>${(order.totalAmount || 0).toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-slate-300">
+                            <span>Shipping</span>
+                            <span>$0</span>
+                          </div>
+                          <div className="flex justify-between text-xl font-bold pt-2 border-t border-slate-700">
+                            <span>Total</span>
+                            <span className="text-[#22FF00]">${(order.totalAmount || 0).toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+            )}
+          </div>
+        )}
+
+        {/* Addresses Tab */}
+        {activeTab === 'Addresses' && (
+          <div className="space-y-4">
+            {!user.addresses || user.addresses.length === 0 ? (
+              <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
+                <p className="text-slate-400">No addresses available</p>
+              </div>
+            ) : (
+              user.addresses.map((address, index) => (
+                <div
+                  key={address._id || index}
+                  className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6"
+                >
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                    {/* Address Details */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="text-lg font-semibold text-white">
+                          {address.fullName || user.name}
+                        </h3>
+                        {address.isDefault && (
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                            Default
+                          </span>
+                        )}
+                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                          {address.addressType || 'Other'}
+                        </span>
+                      </div>
+
+                      <div className="space-y-2 text-slate-300">
+                        {address.phone && (
+                          <p className="flex items-center gap-2">
+                            <span className="text-slate-400 text-sm">Phone:</span>
+                            <span className="text-white">{address.phone}</span>
+                          </p>
+                        )}
+
+                        <p className="text-slate-200">
+                          {address.street && `${address.street}, `}
+                          {address.nearArea && `${address.nearArea}, `}
+                          {address.city && `${address.city}, `}
+                          {address.state && `${address.state} `}
+                          {address.pincode && `${address.pincode}`}
+                        </p>
+
+                        {address.country && (
+                          <p className="flex items-center gap-2">
+                            <span className="text-slate-400 text-sm">Country:</span>
+                            <span className="text-white">{address.country}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Gifts Tab */}
+        {activeTab === 'Gifts' && (
+          <div className="space-y-4">
+            {giftData?.gifts?.length === 0 ? (
+              <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
+                <p className="text-slate-400">No gifts sent yet</p>
+              </div>
+            ) : (
+              giftData?.gifts?.map((gift) => (
+                <div
+                  key={gift._id}
+                  className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6"
+                >
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-semibold text-white">
+                      {gift.GiftName}
+                    </h3>
+                    <span className="text-[#22FF00] font-bold text-lg">
+                      €{gift.Giftvalue}
+                    </span>
+                  </div>
+
+                  <p className="text-slate-400 mb-3">
+                    {gift.Reasonforgift}
+                  </p>
+
+                  <div className="text-sm text-slate-500">
+                    Sent on {new Date(gift.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+        {/* Send Gift Modal */}
+        {isGiftOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <div className="w-full max-w-xl rounded-2xl bg-gradient-to-br from-[#050b2e] to-[#020617] p-6 shadow-2xl relative">
+              <button
+                onClick={() => {
+                  setIsGiftOpen(false);
+                  setSelectedGift(null);
+                  setGiftReason('');
+                }}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              >
+                <X size={20} />
+              </button>
+
+              <h2 className="text-xl font-semibold">Send Gift</h2>
+              <p className="text-sm text-gray-400 mt-1">
+                {user.name} · {user.email}
+              </p>
+
+              <hr className="my-5 border-white/10" />
+
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#D207FF] to-[#00D4FF] flex items-center justify-center">
+                  <IoGift size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold">{user.name || 'Unknown User'}</h2>
-                  <p className="text-slate-400 text-sm">{user.email || 'No email'}</p>
+                  <h3 className="font-medium">Gift Details</h3>
+                  <p className="text-sm text-gray-400">
+                    Send a special gift to your valued customer
+                  </p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <MapPin className="w-4 h-4" />
-                  <span>{primaryAddress?.country || 'Unknown Location'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <Calendar className="w-4 h-4" />
-                  <span>Joined On {formatDate(user.createdAt)}</span>
-                </div>
-                <button
-                  onClick={() => setIsGiftOpen(true)}
-                  className="flex items-center gap-2 bg-gradient-to-r from-[#D207FF] to-[#00D4FF] hover:from-[#B806E0] hover:to-[#00B8E0] px-6 py-2 rounded-lg font-medium transition-all"
-                >
-                  <IoGift className="text-lg" />
-                  <span>Send Gift</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Total Spent */}
-            <div className="mt-6 pt-6 border-t border-slate-700/50">
-              <div className="text-3xl font-bold text-[#22FF00]">
-                $ {user.totalSpent?.toLocaleString() || '0'}
-              </div>
-              <div className="text-slate-400 text-sm">Total Spent</div>
-            </div>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex items-center gap-2 md:gap-4 mb-6 overflow-x-auto md:overflow-visible pb-2 p-2 bg-[#00D4FF0F] rounded-full w-full md:w-fit">
-            {tabs.map((tab, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold whitespace-nowrap transition-all duration-300 ${activeTab === tab
-                  ? 'bg-[#00d1ff] text-[#020b1d] shadow-[0_0_15px_rgba(0,209,255,0.4)]'
-                  : 'bg-transparent text-white hover:text-slate-200'
-                  }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Orders List */}
-          {activeTab === 'Ongoing Orders' && (
-            <div className="space-y-4">
-              {ongoingOrders.length === 0 ? (
-                <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
-                  <p className="text-slate-400">No ongoing orders</p>
-                </div>
-              ) : (
-                ongoingOrders
-                  .map((order) => (
-                    <div
-                      key={order._id}
-                      className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden"
-                    >
-                      {/* Order Header - Clickable */}
-                      <div
-                        className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-6 cursor-pointer hover:bg-slate-800/30 transition-colors"
-                        onClick={() => toggleOrderExpansion(order._id)}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                            <HiOutlineShoppingBag className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold">Order #{order._id?.substring(0, 8).toUpperCase()}</h3>
-                            <p className="text-slate-400 text-sm">{formatDate(order.createdAt)}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
-                            {order.status || order.Status || 'Unknown'}
-                          </span>
-                          <span className="text-2xl font-bold text-[#22FF00]">
-                            ${order.totalAmount?.toLocaleString() || '0'}
-                          </span>
-                          <ChevronDown
-                            className={`w-5 h-5 text-slate-400 transition-transform ${expandedOrderId === order._id ? 'rotate-180' : ''
-                              }`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Expanded Order Details */}
-                      {expandedOrderId === order._id && (
-                        <div className="px-6 pb-6 space-y-6">
-                          {/* Order Items */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Items</h4>
-                            <div className="space-y-4">
-                              {order.products?.map((product, idx) => (
-                                <div key={idx}>
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                      <div className="w-12 h-12 bg-[#FFFFFF12] rounded-lg flex items-center justify-center overflow-hidden">
-                                        {product.productId?.images?.[0] ? (
-                                          <img
-                                            src={product.productId.images[0]}
-                                            className="h-12 w-12 object-cover"
-                                            alt={product.productId.name}
-                                          />
-                                        ) : (
-                                          <img src={img} className="h-12 w-8 object-cover" alt="" />
-                                        )}
-                                      </div>
-                                      <div>
-                                        <h5 className="font-medium">
-                                          {product.productId?.name || 'Product'}
-                                        </h5>
-                                        <p className="text-slate-400 text-sm">
-                                          Quantity: {product.quantity || 1}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="text-[#22FF00] font-semibold">
-                                      ${((product.price || 0) * (product.quantity || 1)).toLocaleString()}
-                                    </div>
-                                  </div>
-                                  {idx < (order.products?.length || 0) - 1 && (
-                                    <hr className="mt-4 border-slate-700" />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Order Timeline */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Tracking</h4>
-                            <div className="space-y-4">
-                              {[
-                                { status: 'Order Placed', key: 'placed' },
-                                { status: 'Payment Confirmed', key: 'confirmed' },
-                                { status: 'Processing', key: 'processing' },
-                                { status: 'Shipped', key: 'shipped' },
-                                { status: 'Delivered', key: 'delivered' },
-                              ].map((item, idx) => {
-                                const currentStatus = (order.status || order.Status)?.toLowerCase();
-                                const completed =
-                                  (currentStatus === 'completed' && idx <= 4) ||
-                                  (currentStatus === 'delivered' && idx <= 4) ||
-                                  (currentStatus === 'shipped' && idx <= 3) ||
-                                  (currentStatus === 'processing' && idx <= 2) ||
-                                  (currentStatus === 'confirmed' && idx <= 1) ||
-                                  (currentStatus === 'placed' && idx <= 0) ||
-                                  (currentStatus === 'pending' && idx <= 0);
-
-                                return (
-                                  <div key={idx} className="flex gap-4">
-                                    <div className="flex flex-col items-center">
-                                      <div
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center ${completed
-                                          ? 'border-2 border-cyan-500'
-                                          : 'border-2 border-gray-500'
-                                          }`}
-                                      >
-                                        <CheckCircle
-                                          className={`w-5 h-5 ${completed ? 'text-cyan-400' : 'text-gray-500'
-                                            }`}
-                                        />
-                                      </div>
-                                      {idx < 4 && (
-                                        <div className="w-0.5 h-12 bg-slate-700 mt-2"></div>
-                                      )}
-                                    </div>
-                                    <div className={idx < 4 ? 'pb-6' : ''}>
-                                      <h5
-                                        className={`font-medium ${completed ? 'text-white' : 'text-slate-400'
-                                          }`}
-                                      >
-                                        {item.status}
-                                      </h5>
-                                      <p
-                                        className={`text-sm ${completed ? 'text-slate-400' : 'text-slate-500'
-                                          }`}
-                                      >
-                                        {completed ? formatDate(order.createdAt) : 'Pending'}
-                                      </p>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          {/* Shipping Address */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-3 font-medium">Shipping Address</h4>
-                            <p className="text-slate-200">
-                              {order.addressId && typeof order.addressId === 'object'
-                                ? `${order.addressId.street || ''}, ${order.addressId.city || ''}, ${order.addressId.state || ''} ${order.addressId.pincode || ''}, ${order.addressId.country || ''}`
-                                : primaryAddress
-                                  ? `${primaryAddress.street || ''}, ${primaryAddress.city || ''}, ${primaryAddress.state || ''} ${primaryAddress.pincode || ''}, ${primaryAddress.country || ''}`
-                                  : `Address ID: ${order.addressId || 'Not available'}`}
-                            </p>
-                          </div>
-
-                          {/* Order Summary */}
-                          <div className="space-y-2 text-sm">
-                            <div className="flex justify-between text-slate-300">
-                              <span>Subtotal</span>
-                              <span>${(order.totalAmount || 0).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between text-slate-300">
-                              <span>Shipping</span>
-                              <span>$0</span>
-                            </div>
-                            <div className="flex justify-between text-xl font-bold pt-2 border-t border-slate-700">
-                              <span>Total</span>
-                              <span className="text-[#22FF00]">${(order.totalAmount || 0).toLocaleString()}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-              )}
-            </div>
-          )}
-
-          {/* Completed Orders Tab */}
-          {activeTab === 'Completed Orders' && (
-            <div className="space-y-4">
-              {completedOrders.length === 0 ? (
-                <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
-                  <p className="text-slate-400">No completed orders</p>
-                </div>
-              ) : (
-                completedOrders
-                  .map((order) => (
-                    <div
-                      key={order._id}
-                      className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden"
-                    >
-                      {/* Order Header - Clickable */}
-                      <div
-                        className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-6 cursor-pointer hover:bg-slate-800/30 transition-colors"
-                        onClick={() => toggleOrderExpansion(order._id)}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                            <HiOutlineShoppingBag className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold">Order #{order._id?.substring(0, 8).toUpperCase()}</h3>
-                            <p className="text-slate-400 text-sm">{formatDate(order.createdAt)}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status || order.Status)}`}>
-                            {order.status || order.Status || 'Unknown'}
-                          </span>
-                          <span className="text-2xl font-bold text-[#22FF00]">
-                            ${order.totalAmount?.toLocaleString() || '0'}
-                          </span>
-                          <ChevronDown
-                            className={`w-5 h-5 text-slate-400 transition-transform ${expandedOrderId === order._id ? 'rotate-180' : ''
-                              }`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Expanded Order Details */}
-                      {expandedOrderId === order._id && (
-                        <div className="px-6 pb-6 space-y-6">
-                          {/* Order Items */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-4 font-medium">Order Items</h4>
-                            <div className="space-y-4">
-                              {order.products?.map((product, idx) => (
-                                <div key={idx}>
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                      <div className="w-12 h-12 bg-[#FFFFFF12] rounded-lg flex items-center justify-center overflow-hidden">
-                                        {product.productId?.images?.[0] ? (
-                                          <img
-                                            src={product.productId.images[0]}
-                                            className="h-12 w-12 object-cover"
-                                            alt={product.productId.name}
-                                          />
-                                        ) : (
-                                          <img src={img} className="h-12 w-8 object-cover" alt="" />
-                                        )}
-                                      </div>
-                                      <div>
-                                        <h5 className="font-medium">
-                                          {product.productId?.name || 'Product'}
-                                        </h5>
-                                        <p className="text-slate-400 text-sm">
-                                          Quantity: {product.quantity || 1}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="text-[#22FF00] font-semibold">
-                                      ${((product.price || 0) * (product.quantity || 1)).toLocaleString()}
-                                    </div>
-                                  </div>
-                                  {idx < (order.products?.length || 0) - 1 && (
-                                    <hr className="mt-4 border-slate-700" />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Order Timeline */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-4 font-medium">
-                              Order Tracking
-                            </h4>
-
-                            <div className="space-y-4">
-                              {[
-                                { label: "Order Placed", key: "Pending" },
-                                { label: "Payment Confirmed", key: "PaymentConfirmed", static: true }, // always grey
-                                { label: "Processing", key: "Processing" },
-                                { label: "Shipped", key: "Shipped" },
-                                { label: "Completed", key: "Completed" },
-                              ].map((step, idx) => {
-
-                                // Find status in history
-                                const historyItem = order.statusHistory?.find(
-                                  (h) => h.status === step.key
-                                );
-
-                                const isCompleted = !!historyItem && !step.static;
-
-                                return (
-                                  <div key={idx} className="flex gap-4">
-                                    {/* Icon + Line */}
-                                    <div className="flex flex-col items-center">
-                                      <div
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center ${isCompleted
-                                          ? "border-2 border-cyan-500"
-                                          : "border-2 border-gray-500"
-                                          }`}
-                                      >
-                                        <CheckCircle
-                                          className={`w-5 h-5 ${isCompleted ? "text-cyan-400" : "text-gray-500"
-                                            }`}
-                                        />
-                                      </div>
-
-                                      {idx < 4 && (
-                                        <div className="w-0.5 h-12 bg-slate-700 mt-2"></div>
-                                      )}
-                                    </div>
-
-                                    {/* Text */}
-                                    <div className={idx < 4 ? "pb-6" : ""}>
-                                      <h5
-                                        className={`font-medium ${isCompleted ? "text-white" : "text-slate-400"
-                                          }`}
-                                      >
-                                        {step.label}
-                                      </h5>
-
-                                      <p
-                                        className={`text-sm ${isCompleted ? "text-slate-400" : "text-slate-500"
-                                          }`}
-                                      >
-                                        {isCompleted
-                                          ? formatDateTime(historyItem.timestamp)
-                                          : "Pending"}
-                                      </p>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                          {/* Shipping Address */}
-                          <div className="bg-[#020523] rounded-xl p-6">
-                            <h4 className="text-slate-400 text-sm mb-3 font-medium">Shipping Address</h4>
-                            <p className="text-slate-200">
-                              {order.addressId && typeof order.addressId === 'object'
-                                ? `${order.addressId.street || ''}, ${order.addressId.city || ''}, ${order.addressId.state || ''} ${order.addressId.pincode || ''}, ${order.addressId.country || ''}`
-                                : primaryAddress
-                                  ? `${primaryAddress.street || ''}, ${primaryAddress.city || ''}, ${primaryAddress.state || ''} ${primaryAddress.pincode || ''}, ${primaryAddress.country || ''}`
-                                  : `Address ID: ${order.addressId || 'Not available'}`}
-                            </p>
-                          </div>
-
-                          {/* Order Summary */}
-                          <div className="space-y-2 text-sm">
-                            <div className="flex justify-between text-slate-300">
-                              <span>Subtotal</span>
-                              <span>${(order.totalAmount || 0).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between text-slate-300">
-                              <span>Shipping</span>
-                              <span>$0</span>
-                            </div>
-                            <div className="flex justify-between text-xl font-bold pt-2 border-t border-slate-700">
-                              <span>Total</span>
-                              <span className="text-[#22FF00]">${(order.totalAmount || 0).toLocaleString()}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-              )}
-            </div>
-          )}
-
-          {/* Addresses Tab */}
-          {activeTab === 'Addresses' && (
-            <div className="space-y-4">
-              {!user.addresses || user.addresses.length === 0 ? (
-                <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
-                  <p className="text-slate-400">No addresses available</p>
-                </div>
-              ) : (
-                user.addresses.map((address, index) => (
-                  <div
-                    key={address._id || index}
-                    className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6"
+              <div className="space-y-4">
+                {/* Gift Selector Dropdown */}
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">
+                    Select Gift <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={selectedGift?._id || ''}
+                    onChange={(e) => {
+                      const gift = giftsData?.gifts?.find(g => g._id === e.target.value);
+                      setSelectedGift(gift || null);
+                    }}
+                    className="w-full rounded-lg border border-white/10 bg-[#020523] px-4 py-2 text-white focus:outline-none focus:border-cyan-500/50"
                   >
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                      {/* Address Details */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                          <h3 className="text-lg font-semibold text-white">
-                            {address.fullName || user.name}
-                          </h3>
-                          {address.isDefault && (
-                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                              Default
-                            </span>
-                          )}
-                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30">
-                            {address.addressType || 'Other'}
-                          </span>
-                        </div>
-
-                        <div className="space-y-2 text-slate-300">
-                          {address.phone && (
-                            <p className="flex items-center gap-2">
-                              <span className="text-slate-400 text-sm">Phone:</span>
-                              <span className="text-white">{address.phone}</span>
-                            </p>
-                          )}
-
-                          <p className="text-slate-200">
-                            {address.street && `${address.street}, `}
-                            {address.nearArea && `${address.nearArea}, `}
-                            {address.city && `${address.city}, `}
-                            {address.state && `${address.state} `}
-                            {address.pincode && `${address.pincode}`}
-                          </p>
-
-                          {address.country && (
-                            <p className="flex items-center gap-2">
-                              <span className="text-slate-400 text-sm">Country:</span>
-                              <span className="text-white">{address.country}</span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-
-          {/* Gifts Tab */}
-          {activeTab === 'Gifts' && (
-            <div className="space-y-4">
-              {giftData?.gifts?.length === 0 ? (
-                <div className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-center">
-                  <p className="text-slate-400">No gifts sent yet</p>
+                    <option value="">Choose a gift...</option>
+                    {giftsData?.gifts?.map((gift) => (
+                      <option key={gift._id} value={gift._id}>
+                        {gift.GiftName} - €{gift.Giftvalue} ({gift.count} available)
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              ) : (
-                giftData?.gifts?.map((gift) => (
-                  <div
-                    key={gift._id}
-                    className="bg-[#0B1135] backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6"
-                  >
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="text-lg font-semibold text-white">
-                        {gift.GiftName}
-                      </h3>
-                      <span className="text-[#22FF00] font-bold text-lg">
-                        ${gift.Giftvalue}
-                      </span>
-                    </div>
 
-                    <p className="text-slate-400 mb-3">
-                      {gift.Reasonforgift}
-                    </p>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">
+                    Gift Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={selectedGift?.GiftName || ''}
+                    readOnly
+                    placeholder="eg. Premium Perfume Collection"
+                    className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white placeholder-gray-500 focus:outline-none"
+                  />
+                </div>
 
-                    <div className="text-sm text-slate-500">
-                      Sent on {new Date(gift.createdAt).toLocaleDateString()}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-          {/* Send Gift Modal */}
-          {isGiftOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-              <div className="w-full max-w-xl rounded-2xl bg-gradient-to-br from-[#050b2e] to-[#020617] p-6 shadow-2xl relative">
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">
+                    Gift Value (€) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={selectedGift?.Giftvalue || ''}
+                    readOnly
+                    placeholder="150.00"
+                    className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">
+                    Reason For Gift <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    rows="3"
+                    value={giftReason}
+                    onChange={(e) => setGiftReason(e.target.value)}
+                    placeholder="eg. Thank you for being a loyal customer"
+                    className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white placeholder-gray-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6">
                 <button
                   onClick={() => {
                     setIsGiftOpen(false);
                     setSelectedGift(null);
                     setGiftReason('');
                   }}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-white"
+                  className="px-4 py-2 text-gray-300 hover:text-white"
                 >
-                  <X size={20} />
+                  Cancel
                 </button>
-
-                <h2 className="text-xl font-semibold">Send Gift</h2>
-                <p className="text-sm text-gray-400 mt-1">
-                  {user.name} · {user.email}
-                </p>
-
-                <hr className="my-5 border-white/10" />
-
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#D207FF] to-[#00D4FF] flex items-center justify-center">
-                    <IoGift size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Gift Details</h3>
-                    <p className="text-sm text-gray-400">
-                      Send a special gift to your valued customer
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  {/* Gift Selector Dropdown */}
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1">
-                      Select Gift <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={selectedGift?._id || ''}
-                      onChange={(e) => {
-                        const gift = giftsData?.gifts?.find(g => g._id === e.target.value);
-                        setSelectedGift(gift || null);
-                      }}
-                      className="w-full rounded-lg border border-white/10 bg-[#020523] px-4 py-2 text-white focus:outline-none focus:border-cyan-500/50"
-                    >
-                      <option value="">Choose a gift...</option>
-                      {giftsData?.gifts?.map((gift) => (
-                        <option key={gift._id} value={gift._id}>
-                          {gift.GiftName} - ${gift.Giftvalue} ({gift.count} available)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1">
-                      Gift Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={selectedGift?.GiftName || ''}
-                      readOnly
-                      placeholder="eg. Premium Perfume Collection"
-                      className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white placeholder-gray-500 focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1">
-                      Gift Value ($) <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      value={selectedGift?.Giftvalue || ''}
-                      readOnly
-                      placeholder="150.00"
-                      className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-1">
-                      Reason For Gift <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      rows="3"
-                      value={giftReason}
-                      onChange={(e) => setGiftReason(e.target.value)}
-                      placeholder="eg. Thank you for being a loyal customer"
-                      className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-white placeholder-gray-500 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3 mt-6">
-                  <button
-                    onClick={() => {
-                      setIsGiftOpen(false);
-                      setSelectedGift(null);
-                      setGiftReason('');
-                    }}
-                    className="px-4 py-2 text-gray-300 hover:text-white"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleSendGift}
-                    disabled={!selectedGift || !giftReason || isAssigningGift}
-                    className={`px-5 py-2 rounded-lg ${selectedGift
-                      ? 'bg-blue-600 hover:bg-blue-700'
-                      : 'bg-gray-600 cursor-not-allowed'
-                      }`}
-                  >
-                    {isAssigningGift ? "Sending..." : "Send Gift"}
-                  </button>
-                </div>
+                <button
+                  onClick={handleSendGift}
+                  disabled={!selectedGift || !giftReason || isAssigningGift}
+                  className={`px-5 py-2 rounded-lg ${selectedGift
+                    ? 'bg-blue-600 hover:bg-blue-700'
+                    : 'bg-gray-600 cursor-not-allowed'
+                    }`}
+                >
+                  {isAssigningGift ? "Sending..." : "Send Gift"}
+                </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

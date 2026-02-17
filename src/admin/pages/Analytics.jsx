@@ -9,7 +9,7 @@ const Analytics = () => {
     {
       title: "Total Visitors",
       value: "328,500",
-      icon:"IoAnalyticsSharp",
+      icon: "IoAnalyticsSharp",
       percent: "+12.5 %",
     },
     {
@@ -30,11 +30,11 @@ const Analytics = () => {
   ];
 
   return (
-    <div className=" bg-[#020523] lg:ml-23 mt-5 font- text-white min-h-screen">
+    <div className=" bg-[#020523] text-white min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="-mt-15">
-          <h1 className="text-3xl font-manrope ">Analytics</h1>
+        <div>
+          <h1 className="page-header-title">Analytics</h1>
           <p className="text-gray-400 font-manrope  text-xs">
             Deep Insights Into Your Business Performance
           </p>
@@ -89,7 +89,7 @@ const Analytics = () => {
             <p className="text-gray-400 mt-4">{item.title}</p>
 
             {/* Value */}
-            <h2 className="text-3xl font-semibold mt-2">{item.value}</h2>
+            <h2 className="analytics-metric-value mt-2">{item.value}</h2>
           </div>
         ))}
       </div>

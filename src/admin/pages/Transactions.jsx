@@ -31,11 +31,11 @@ const Transactions = () => {
   ];
 
   return (
-    <div className="p-2 md:p-5 lg:ml-23   bg-[#020523] text-[#BEBEBE] min-h-screen">
+    <div className="bg-[#020523] text-[#BEBEBE] min-h-screen">
       {/* TITLE */}
       <div className="flex justify-between">
         <div>
-          <h1 className="text-3xl font-manrope">Transactions</h1>
+          <h1 className="page-header-title">Transactions</h1>
           <p className="text-gray-400 mt-1 font-manrope">Financial Transaction History</p>
         </div>
 
@@ -66,30 +66,30 @@ const Transactions = () => {
         </div>
 
         <p className="mt-6 text-gray-400 text-sm">Total Revenue</p>
-        <h2 className="text-3xl font-bold mt-2">$328,500</h2>
+        <h2 className="text-3xl  font-manrope mt-2">$328,500</h2>
       </div>
 
       {/* SEARCH + FILTER + EXPORT */}
-    <div className="items-center mt-10 p-4 border border-[#00D4FF0F] bg-[#0B1135] rounded-xl">
-  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-    {/* SEARCH BAR */}
-    <div className="flex items-center gap-3 bg-[#0B1135] border border-[#00D4FF0F] px-4 py-3 rounded-xl w-full sm:max-w-md">
-      <FaSearch className="text-gray-400" />
-      <input
-        type="text"
-        placeholder="Search"
-        className="bg-transparent outline-none w-full text-gray-300"
-      />
-    </div>
+      <div className="items-center mt-10 p-4 border border-[#00D4FF0F] bg-[#0B1135] rounded-xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+          {/* SEARCH BAR */}
+          <div className="flex items-center gap-3 bg-[#0B1135] border border-[#00D4FF0F] px-4 py-3 rounded-xl w-full sm:max-w-md">
+            <FaSearch className="text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="bg-transparent outline-none w-full text-gray-300"
+            />
+          </div>
 
-    {/* STATUS FILTER */}
-    <button className="flex items-center gap-2 bg-[#0B1135] border border-white/40 px-5 py-3 rounded-xl w-full sm:w-auto text-gray-300 hover:bg-white/10 transition justify-center">
-      <FiFilter className="text-xl" />
-      All Status
-      <span className="text-lg">▾</span>
-    </button>
-  </div>
-</div>
+          {/* STATUS FILTER */}
+          <button className="flex items-center gap-2 bg-[#0B1135] border border-white/40 px-5 py-3 rounded-xl w-full sm:w-auto text-gray-300 hover:bg-white/10 transition justify-center">
+            <FiFilter className="text-xl" />
+            All Status
+            <span className="text-lg">▾</span>
+          </button>
+        </div>
+      </div>
 
 
       {/* TABLE */}
@@ -109,16 +109,18 @@ const Transactions = () => {
 
           <tbody className="text-gray-200 font-manrope text-sm sm:text-base">
             {data.map((t, index) => (
-              <tr key={index} className="border-b border-white/5">
+              <tr key={index} className="border-b border-white/5 align-middle">
                 <td className="py-4 px-4 sm:px-6">{t.id}</td>
 
-                <td className="py-4 px-4 sm:px-6 flex items-center gap-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#141A3A] rounded-full flex items-center justify-center text-[#00c8ff] font-manrope text-sm sm:text-base">
-                    SC
-                  </div>
-                  <div>
-                    <p>{t.name}</p>
-                    <p className="text-gray-400 text-xs sm:text-sm">{t.phone}</p>
+                <td className="py-4 px-4 sm:px-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#141A3A] rounded-full flex items-center justify-center text-[#00c8ff] font-manrope text-sm sm:text-base">
+                      SC
+                    </div>
+                    <div>
+                      <p>{t.name}</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">{t.phone}</p>
+                    </div>
                   </div>
                 </td>
 

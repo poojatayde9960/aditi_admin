@@ -112,7 +112,7 @@ const Gifts = () => {
                 </div>
                 <button
                     onClick={() => setActiveModal('gift')}
-                    className="bg-[#00c2ff] hover:bg-[#00a8dd] text-white font-bold py-2 px-6 rounded-xl flex items-center gap-2 transition-all"
+                    className="bg-[#00c2ff] hover:bg-[#00a8dd]  font-manrope font-semibold  text-white py-2 px-6 rounded-xl flex items-center gap-2 transition-all"
                 >
                     <Plus size={18} /> Add Gift
                 </button>
@@ -164,8 +164,8 @@ const Gifts = () => {
                                 <div className="flex items-center gap-5">
                                     <img src={giftsimg} className="h-10" alt="" />
                                     <div>
-                                        <h3 className="text-xl font-medium">{gift.GiftName}</h3>
-                                        <p className="text-gray-400 mt-1">€ {gift.Giftvalue}</p>
+                                        <h3 className="text-xl font-manrope font-semibold">{gift.GiftName}</h3>
+                                        <p className="text-[#FFFFFF] font-medium mt-1 font-manrope">€ {gift.Giftvalue}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -208,7 +208,7 @@ const Gifts = () => {
                                     <tr key={gift._id} className="border-b border-gray-800/50 hover:bg-white/5 align-middle">
                                         <td className="p-4 font-mono">{gift._id}</td>
                                         <td className="p-4">
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex items-center font-manrope gap-3">
                                                 <img src={giftsimg} className="h-6" alt="" />
                                                 {gift.GiftName}
                                             </div>

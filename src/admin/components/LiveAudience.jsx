@@ -7,7 +7,31 @@ const countries = [
     { name: "Others", value: 11, percent: 10 },
 ];
 
-const LiveAudience = () => {
+const LiveAudience = ({ isLoading }) => {
+    if (isLoading) {
+        return (
+            <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[360px] animate-pulse">
+                <div className="h-6 bg-white/5 rounded w-1/3 mb-1"></div>
+                <div className="h-4 bg-white/5 rounded w-1/4 mb-6"></div>
+                <div className="text-center mb-8 space-y-2">
+                    <div className="h-10 bg-white/5 rounded w-1/4 mx-auto"></div>
+                    <div className="h-3 bg-white/5 rounded w-1/6 mx-auto"></div>
+                </div>
+                <div className="space-y-5">
+                    {[1, 2, 3, 4].map(i => (
+                        <div key={i} className="space-y-2">
+                            <div className="flex justify-between">
+                                <div className="h-3 bg-white/5 rounded w-1/3"></div>
+                                <div className="h-3 bg-white/5 rounded w-12"></div>
+                            </div>
+                            <div className="h-2 bg-white/5 rounded-full w-full"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-[#FFFFFF0A] border font-manrope border-white/10 rounded-2xl p-6 shadow-lg h-full">
             <h3 className="text-white text-lg font-manrope mb-1">Live Audience</h3>

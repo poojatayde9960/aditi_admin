@@ -7,24 +7,43 @@ import LiveAudience from "../components/LiveAudience";
 import TopSellingAndOrders from "../components/TopSellingAndOrders"; // Keeping this for now, will refactor next if needed
 import { Icon } from "@iconify/react";
 import { useGetCardstatusQuery, useGetUserConversionRateQuery } from "../../Redux/Apis/dashboardApi";
+const DashboardSkeleton = () => (
+  <div className="bg-[#FFFFFF0A] border border-white/10 rounded-[2rem] p-6 h-[220px] w-full mx-auto">
+    <div className="animate-pulse flex flex-col justify-between h-full">
+      {/* Top Section */}
+      <div className="flex justify-between items-start">
+        <div className="rounded-2xl bg-white/5 h-14 w-14"></div>
+        <div className="rounded-xl bg-white/5 h-8 w-20"></div>
+      </div>
+
+      {/* Middle Section */}
+      <div className="space-y-3">
+        <div className="h-4 bg-white/5 rounded w-1/3"></div>
+        <div className="h-10 bg-white/5 rounded w-2/3"></div>
+      </div>
+
+      {/* Bottom section (Graph area) */}
+      <div className="h-16 bg-white/5 rounded-xl w-full"></div>
+    </div>
+  </div>
+);
+
 const AdminDashboard = () => {
 
   const { data, isLoading } = useGetCardstatusQuery();
   const { data: conversionRateData, isLoading: isConversionRateLoading } = useGetUserConversionRateQuery();
+
+  const isAnyLoading = isLoading || isConversionRateLoading;
+
   // Precise data to match the screenshot curve
   const revenueData = [
     { uv: 12 }, { uv: 13 }, { uv: 14 }, { uv: 15 }, { uv: 18 }, { uv: 19 }, { uv: 20 }, { uv: 22 }, { uv: 26 }, { uv: 34 }, { uv: 38 }, { uv: 40 }
   ];
 
-  /* 
-     User requested "Add the graph exactly like it is in the screenshot, and apply it to all 4 cards."
-     So we apply 'revenueData' to all cards to ensure identical visual appearance.
-  */
-
   const stats = [
     {
       title: "Total Revenue",
-      value: isLoading ? "Loading..." : `$${data?.data?.totalRevenue ?? 0}`,
+      value: `$${data?.data?.totalRevenue ?? 0}`,
       percent: "+12.5%",
       icon: "mdi:dollar",
       chartColor: "#00D4FF",
@@ -32,7 +51,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Orders",
-      value: isLoading ? "Loading..." : data?.data?.totalOrders ?? 0,
+      value: data?.data?.totalOrders ?? 0,
       percent: "+12.5%",
       icon: "solar:bag-2-broken",
       chartColor: "#00d5ff",
@@ -40,7 +59,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Total Users",
-      value: isLoading ? "Loading..." : data?.data?.totalUsers ?? 0,
+      value: data?.data?.totalUsers ?? 0,
       percent: "+12.5%",
       icon: "mage:users",
       chartColor: "#00d5ff",
@@ -48,9 +67,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Conversion Rate",
-      value: isConversionRateLoading
-        ? "Loading..."
-        : conversionRateData?.conversionRate ?? "0%",
+      value: conversionRateData?.conversionRate ?? "0%",
       percent: "+12.5%",
       icon: "famicons:analytics",
       chartColor: "#00d5ff",
@@ -75,15 +92,16 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1  font-manrope  sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        {stats.map((item, index) => (
-          <DashboardStatsCard
-            key={index}
-            filterId={` font-manrope  line-shadow-${index}`} // unique filter for each card
-            {...item}
-          />
-        ))}
-
+      <div className="grid grid-cols-1 font-manrope sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {isAnyLoading
+          ? Array.from({ length: 4 }).map((_, index) => <DashboardSkeleton key={index} />)
+          : stats.map((item, index) => (
+            <DashboardStatsCard
+              key={index}
+              filterId={`font-manrope line-shadow-${index}`} // unique filter for each card
+              {...item}
+            />
+          ))}
       </div>
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
@@ -100,7 +118,7 @@ const AdminDashboard = () => {
 
         {/* Live Audience -  */}
         <div className="lg:col-span-3 xl:col-span-3">
-          <LiveAudience />
+          <LiveAudience isLoading={isAnyLoading} />
         </div>
 
       </div>

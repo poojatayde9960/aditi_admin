@@ -25,6 +25,18 @@ const SalesPerformanceChart = () => {
       }))
       .reverse() || [];
 
+  if (isLoading) {
+    return (
+      <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[360px] animate-pulse">
+        <div className="h-6 bg-white/5 rounded w-1/4 mb-1"></div>
+        <div className="h-4 bg-white/5 rounded w-1/2 mb-6"></div>
+        <div className="flex-1 flex flex-col justify-end space-y-6 py-1 h-[220px]">
+          <div className="h-full bg-white/5 rounded w-full"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-full">
       <h3 className="text-white text-lg font-semibold mb-1"></h3>

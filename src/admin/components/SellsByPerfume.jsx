@@ -43,7 +43,24 @@ const SellsByPerfume = () => {
     });
 
     if (isLoading) {
-        return <p className="text-white">Loading...</p>;
+        return (
+            <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[360px] animate-pulse">
+                <div className="h-6 bg-white/5 rounded w-1/2 mb-8"></div>
+                <div className="flex items-center justify-center mb-8">
+                    <div className="h-40 w-40 rounded-full border-8 border-white/5"></div>
+                </div>
+                <div className="space-y-3">
+                    <div className="flex justify-between">
+                        <div className="h-4 bg-white/5 rounded w-1/3"></div>
+                        <div className="h-4 bg-white/5 rounded w-1/4"></div>
+                    </div>
+                    <div className="flex justify-between">
+                        <div className="h-4 bg-white/5 rounded w-1/2"></div>
+                        <div className="h-4 bg-white/5 rounded w-1/6"></div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

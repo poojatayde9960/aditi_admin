@@ -98,8 +98,53 @@ const TopSellingAndOrders = () => {
 
   if (isLoading || ordersLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-        <p className="text-white">Loading dashboard...</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6 animate-pulse">
+        {/* Left Skeleton */}
+        <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[450px]">
+          <div className="h-6 bg-white/5 rounded w-1/3 mb-1"></div>
+          <div className="h-4 bg-white/5 rounded w-1/4 mb-6"></div>
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-white/5"></div>
+                  <div className="w-10 h-10 rounded-md bg-white/5"></div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-white/5 rounded w-24"></div>
+                    <div className="h-2 bg-white/5 rounded w-16"></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3 bg-white/5 rounded w-12 ml-auto"></div>
+                  <div className="h-2 bg-white/5 rounded w-8 ml-auto"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Skeleton */}
+        <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[450px]">
+          <div className="h-6 bg-white/5 rounded w-1/3 mb-1"></div>
+          <div className="h-4 bg-white/5 rounded w-1/4 mb-6"></div>
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-2 h-2 rounded-full bg-white/5"></div>
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <div className="h-3 bg-white/5 rounded w-20"></div>
+                      <div className="h-3 bg-white/5 rounded w-12"></div>
+                    </div>
+                    <div className="h-2 bg-white/5 rounded w-32"></div>
+                  </div>
+                </div>
+                <div className="h-2 bg-white/5 rounded w-16"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

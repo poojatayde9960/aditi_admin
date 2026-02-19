@@ -7,6 +7,7 @@ export const usersApi = createApi({
         credentials: "include",
     }),
     tagTypes: ["user"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
             getUsers: builder.query({

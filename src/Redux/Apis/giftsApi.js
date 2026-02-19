@@ -7,6 +7,7 @@ export const giftsApi = createApi({
         credentials: "include",
     }),
     tagTypes: ["gifts"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
             getGifts: builder.query({
@@ -62,7 +63,7 @@ export const giftsApi = createApi({
                     url: `/gift/user/${id}`,
                     method: "GET",
                 }),
-                providesTags: ["gift"],
+                providesTags: ["gifts"],
             }),
 
         }

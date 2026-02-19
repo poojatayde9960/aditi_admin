@@ -7,6 +7,7 @@ export const dashboardApi = createApi({
         credentials: "include",
     }),
     tagTypes: ["dashboard"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
             getCardstatus: builder.query({

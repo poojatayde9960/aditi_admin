@@ -94,24 +94,24 @@ const UserList = () => {
         <div className="min-w-[1100px] ">
 
           {/* Header */}
-          <div className="grid grid-cols-8 text-[#A19F9F] font-manrope text-sm px-6 py-4 border-b border-white/20">
-            <span className="col-span-2 text-[#A19F9F]">Customer</span>
-            <span>Location</span>
-            <span>Contact</span>
-            <span>Orders</span>
-            <span>Joined</span>
-            <span>Total Spent</span>
-            <span className="text-center">Action</span>
+          <div className="grid grid-cols-12 gap-4 text-[#A19F9F] font-manrope text-sm px-6 py-4 border-b border-white/20">
+            <span className="col-span-3 ">Customer</span>
+            <span className="col-span-2">Location</span>
+            <span className="col-span-2">Contact</span>
+            <span className="col-span-1">Orders</span>
+            <span className="col-span-1">Joined</span>
+            <span className="col-span-1">Total Spent</span>
+            <span className="col-span-2 text-center">Action</span>
           </div>
 
           {/* Rows */}
           {filteredStudents.map((item, index) => (
             <div
               key={index}
-              className="grid grid-cols-8 px-6  py-5 border-b border-white/10 text-gray-200 items-center"
+              className="grid grid-cols-12 gap-4 px-6  py-5 border-b border-white/10 text-gray-200 items-center"
             >
               {/* Customer */}
-              <div className="col-span-2 flex items-center gap-4">
+              <div className="col-span-3 flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-white/10 text-[#00D4FF] flex items-center justify-center">
                   {getInitials(item.name)}
                 </div>
@@ -121,16 +121,16 @@ const UserList = () => {
                 </div>
               </div>
 
-              <span className="text-xs">{item.location}</span>
-              <span className="text-xs">{item.contact}</span>
-              <span className="text-xs">{item.orders}</span>
-              <span className="text-xs">{item.date}</span>
+              <span className="col-span-2 text-xs">{item.location}</span>
+              <span className="col-span-2 text-xs">{item.contact}</span>
+              <span className="col-span-1 text-xs">{item.orders}</span>
+              <span className="col-span-1 text-xs">{item.date}</span>
 
-              <span className="text-green-400 text-xs">
+              <span className="col-span-1 text-green-400 text-xs">
                 {item.spent}
               </span>
 
-              <div className="flex justify-center gap-3 text-[#00eaff] cursor-pointer">
+              <div className="col-span-2 flex justify-center gap-3 text-[#00eaff] cursor-pointer">
                 <Link to={`/admin/customer-detail/${item.id}`}>
                   <Eye size={20} />
                 </Link>

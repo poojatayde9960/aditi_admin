@@ -1,11 +1,11 @@
 import React from "react";
 import { useGetTopSellingQuery } from "../../Redux/Apis/dashboardApi";
-import { useGetOdersQuery } from "../../Redux/Apis/OrdersApi";
+import { useGetOrdersQuery } from "../../Redux/Apis/OrdersApi"; // ✅ fixed typo
 
 const TopSellingAndOrders = () => {
   const { data, isLoading } = useGetTopSellingQuery();
   const { data: ordersData, isLoading: ordersLoading } =
-    useGetOdersQuery();
+    useGetOrdersQuery();
 
   /* =========================
         TOP SELLING LOGIC
@@ -27,13 +27,13 @@ const TopSellingAndOrders = () => {
     return acc;
   }, []);
 
-  // ✅ Total sales for percentage calculation
+  // ✅ Calculate total sales
   const totalSales = mergedData.reduce(
     (sum, item) => sum + item.totalSold,
     0
   );
 
-  // ✅ Sort + Top 5 + Format
+  // ✅ Sort, Take Top 5, Format Data
   const topSelling = mergedData
     .sort((a, b) => b.totalSold - a.totalSold)
     .slice(0, 5)
@@ -48,7 +48,7 @@ const TopSellingAndOrders = () => {
         name: item.name,
         image: item.image,
         sales: `${item.totalSold} Sales`,
-        price: `€${item.price}`,
+        price: `€${item.price ?? 0}`,
         percent: `${percent}%`,
         percentColor:
           percent > 30
@@ -60,7 +60,7 @@ const TopSellingAndOrders = () => {
     });
 
   /* =========================
-        RECENT ORDERS
+        RECENT ORDERS LOGIC
   ========================= */
 
   const recentOrders = ordersData?.orders?.length
@@ -71,7 +71,7 @@ const TopSellingAndOrders = () => {
       )
       .slice(0, 5)
       .map((order) => ({
-        orderId: `#${order._id.slice(-6)}`,
+        orderId: `#${order._id?.slice(-6)}`,
         status:
           order.paymentStatus === "completed"
             ? "Completed"
@@ -84,10 +84,10 @@ const TopSellingAndOrders = () => {
             : order.paymentStatus === "pending"
               ? "bg-[#D9FF0030] text-[#D9FF00]"
               : "bg-[#00D4FF0F] text-[#00D4FF]",
-        name: order.userId?.name || "Customer",
+        name: order.user?.name || "Customer",
         product:
           order.products?.[0]?.productId?.name ||
-          `${order.products?.length} Products`,
+          `${order.products?.length || 0} Products`,
         time: new Date(order.createdAt).toLocaleDateString(),
       }))
     : [];
@@ -98,53 +98,8 @@ const TopSellingAndOrders = () => {
 
   if (isLoading || ordersLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6 animate-pulse">
-        {/* Left Skeleton */}
-        <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[450px]">
-          <div className="h-6 bg-white/5 rounded w-1/3 mb-1"></div>
-          <div className="h-4 bg-white/5 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-white/5"></div>
-                  <div className="w-10 h-10 rounded-md bg-white/5"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/5 rounded w-24"></div>
-                    <div className="h-2 bg-white/5 rounded w-16"></div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="h-3 bg-white/5 rounded w-12 ml-auto"></div>
-                  <div className="h-2 bg-white/5 rounded w-8 ml-auto"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right Skeleton */}
-        <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg h-[450px]">
-          <div className="h-6 bg-white/5 rounded w-1/3 mb-1"></div>
-          <div className="h-4 bg-white/5 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 rounded-full bg-white/5"></div>
-                  <div className="space-y-2">
-                    <div className="flex gap-2">
-                      <div className="h-3 bg-white/5 rounded w-20"></div>
-                      <div className="h-3 bg-white/5 rounded w-12"></div>
-                    </div>
-                    <div className="h-2 bg-white/5 rounded w-32"></div>
-                  </div>
-                </div>
-                <div className="h-2 bg-white/5 rounded w-16"></div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
+        <p className="text-white">Loading dashboard...</p>
       </div>
     );
   }
@@ -158,7 +113,7 @@ const TopSellingAndOrders = () => {
 
       {/* LEFT: TOP SELLING PERFUMES */}
       <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg">
-        <h2 className="section-header-title mb-1">
+        <h2 className="text-xl text-white mb-1">
           Top Selling Perfumes
         </h2>
         <p className="text-gray-400 text-xs mb-6">
@@ -174,7 +129,7 @@ const TopSellingAndOrders = () => {
               >
                 <div className="flex items-center gap-4">
                   {/* Rank */}
-                  <div className="w-10 h-10 rounded-lg bg-[#141b3d] flex items-center justify-center text-[#00d5ff] ">
+                  <div className="w-10 h-10 rounded-lg bg-[#141b3d] flex items-center justify-center text-[#00d5ff] font-bold">
                     {item.id}
                   </div>
 
@@ -197,7 +152,7 @@ const TopSellingAndOrders = () => {
                 </div>
 
                 <div className="text-right">
-                  <p className="text-white  font-manrope  text-sm">
+                  <p className="text-white font-semibold text-sm">
                     {item.price}
                   </p>
                   <p
@@ -218,7 +173,7 @@ const TopSellingAndOrders = () => {
 
       {/* RIGHT: RECENT ORDERS */}
       <div className="bg-[#FFFFFF0A] border border-white/10 rounded-2xl p-6 shadow-lg">
-        <h2 className="section-header-title mb-1">
+        <h2 className="text-xl text-white mb-1">
           Recent Orders
         </h2>
         <p className="text-gray-400 text-xs mb-6">
@@ -227,9 +182,9 @@ const TopSellingAndOrders = () => {
 
         <div className="space-y-4">
           {recentOrders.length > 0 ? (
-            recentOrders.map((order, index) => (
+            recentOrders.map((order) => (
               <div
-                key={index}
+                key={order.orderId}
                 className="bg-[#020523]/40 rounded-xl flex justify-between items-center p-4 hover:bg-[#1e2746]/60 transition-all duration-300"
               >
                 <div className="flex items-start gap-4">
@@ -238,7 +193,7 @@ const TopSellingAndOrders = () => {
                   <div>
                     <div className="flex items-center gap-3 mb-1">
                       <p className="text-white text-sm font-medium">
-                        {order.orderId}
+                        {order.name}
                       </p>
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${order.statusColor}`}

@@ -7,6 +7,7 @@ export const OrderApi = createApi({
         credentials: "include",
     }),
     tagTypes: ["order"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
             getOders: builder.query({

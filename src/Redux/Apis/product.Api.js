@@ -3,10 +3,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
-   baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
     credentials: "include",
   }),
   tagTypes: ["Product"],
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     addProduct: builder.mutation({
       query: (body) => ({

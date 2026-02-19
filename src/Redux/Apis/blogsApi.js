@@ -7,6 +7,7 @@ export const blogsApi = createApi({
         credentials: "include",
     }),
     tagTypes: ["blogs"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
             getBlogs: builder.query({

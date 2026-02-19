@@ -7,6 +7,7 @@ export const enquiryApi = createApi({
         credentials: "include", // if cookies/session needed
     }),
     tagTypes: ["enquiry"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         getEnquiry: builder.query({
             query: () => "/users/contactus/getall",

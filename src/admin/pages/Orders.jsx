@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Search, Eye } from "lucide-react";
 import { Icon } from "@iconify/react";
 import OrderDetails from "../components/OrderDetails";
-import { useGetOdersQuery, useUpdateStatusMutation } from "../../Redux/Apis/OrdersApi";
+import { useGetOrdersQuery, useUpdateStatusMutation } from "../../Redux/Apis/OrdersApi";
 
 const Orders = () => {
-  const { data, isLoading, refetch } = useGetOdersQuery();
+  const { data, isLoading, refetch } = useGetOrdersQuery();
   const [updateStatus, { isLoading: isUpdating }] = useUpdateStatusMutation();
 
   const [activeTab, setActiveTab] = useState("All");

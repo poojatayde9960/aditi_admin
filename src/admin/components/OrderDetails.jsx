@@ -2,12 +2,12 @@ import React from "react";
 import { X } from "lucide-react";
 import bg1 from "/public/bg1.png";
 import { Icon } from "@iconify/react";
-import { useGetOdersByIdQuery } from "../../Redux/Apis/OrdersApi";
+import { useGetOrdersByIdQuery } from "../../Redux/Apis/OrdersApi";
 
 const OrderDetails = ({ open, onClose, order }) => {
   if (!open || !order?._id) return null;
 
-  const { data, isLoading } = useGetOdersByIdQuery(order._id);
+  const { data, isLoading } = useGetOrdersByIdQuery(order._id);
   const orderData = data?.order;
 
   if (isLoading || !orderData) {

@@ -10,7 +10,7 @@ export const OrderApi = createApi({
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
         return {
-            getOders: builder.query({
+            getOrders: builder.query({
                 query: () => {
                     return {
                         url: "/admin/order/getAllOrder",
@@ -19,7 +19,7 @@ export const OrderApi = createApi({
                 },
                 providesTags: ["order"]
             }),
-            getOdersById: builder.query({
+            getOrdersById: builder.query({
                 query: (id) => {
                     return {
                         url: `/admin/order/getOrderById/${id}`,
@@ -53,7 +53,7 @@ export const OrderApi = createApi({
 
 export const {
     useGetOrderDetailByIdQuery,
-    useGetOdersQuery,
-    useGetOdersByIdQuery,
+    useGetOrdersQuery,
+    useGetOrdersByIdQuery,
     useUpdateStatusMutation
 } = OrderApi

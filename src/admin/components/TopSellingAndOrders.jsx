@@ -1,6 +1,6 @@
 import React from "react";
 import { useGetTopSellingQuery } from "../../Redux/Apis/dashboardApi";
-import { useGetOrdersQuery } from "../../Redux/Apis/OrdersApi"; // ✅ fixed typo
+import { useGetOrdersQuery } from "../../Redux/Apis/OrdersApi";
 
 const TopSellingAndOrders = () => {
   const { data, isLoading } = useGetTopSellingQuery();
@@ -11,7 +11,7 @@ const TopSellingAndOrders = () => {
         TOP SELLING LOGIC
   ========================= */
 
-  // ✅ Merge duplicate perfumes by name
+  // Merge duplicate perfumes by name
   const mergedData = (data?.data || []).reduce((acc, item) => {
     const existing = acc.find((p) => p.name === item.name);
 
@@ -27,13 +27,13 @@ const TopSellingAndOrders = () => {
     return acc;
   }, []);
 
-  // ✅ Calculate total sales
+  // Calculate total sales
   const totalSales = mergedData.reduce(
     (sum, item) => sum + item.totalSold,
     0
   );
 
-  // ✅ Sort, Take Top 5, Format Data
+  // Sort, Take Top 5, Format Data
   const topSelling = mergedData
     .sort((a, b) => b.totalSold - a.totalSold)
     .slice(0, 5)
@@ -203,7 +203,7 @@ const TopSellingAndOrders = () => {
                     </div>
 
                     <p className="text-gray-400 text-xs">
-                      {order.name} • {order.product}
+                      {order.name} - {order.product}
                     </p>
                   </div>
                 </div>

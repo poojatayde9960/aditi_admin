@@ -290,10 +290,11 @@ const AddProduct = () => {
                                         className="bg-transparent w-full outline-none text-white text-[14px] font-manrope appearance-none cursor-pointer"
                                     >
                                         <option className="text-black" value="">Select</option>
-                                        <option className="text-black" value="mahakali">Mahakali</option>
-                                        <option className="text-black" value="rudra">Rudra</option>
-                                        <option className="text-black" value="shiva">Shiva</option>
-                                        <option className="text-black" value="valhalla">Valhalla</option>
+                                        <option className="text-black" value="mahakali">wisdom</option>
+                                        <option className="text-black" value="rudra">strength</option>
+                                        <option className="text-black" value="shiva">harmony</option>
+                                        <option className="text-black" value="valhalla">perfection</option>
+                                        <option className="text-black" value="valhalla">divine consciousness</option>
                                     </select>
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                                         <Icon icon="lucide:chevron-down" width="16" />

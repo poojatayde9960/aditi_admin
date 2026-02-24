@@ -136,54 +136,59 @@ const AddProduct = () => {
         if (isEditing && productsData?.products) {
             const p = productsData.products.find(item => item._id === id);
             if (p) {
-                setProductName(p.heroSection?.productName || "");
-                setGardenName(p.heroSection?.gardenName || "");
-                setBgImage1(p.heroSection?.bgImage || null);
-                setDescription1(p.heroSection?.description || "");
+                setProductName(p.heroSection?.productName || p.productName || "");
+                setGardenName(p.heroSection?.gardenName || p.gardenName || "");
+                setBgImage1(p.heroSection?.bgImage || p.bgImage1 || null);
+                setDescription1(p.heroSection?.description || p.description1 || "");
 
-                setDescription2(p.essenceSection?.description || "");
-                setBgImage2(p.essenceImageSection?.bgImage || null);
+                setDescription2(p.essenceSection?.description || p.description2 || "");
+                setBgImage2(p.essenceImageSection?.bgImage || p.bgImage2 || null);
 
-                setDescription3(p.livingSourceSection?.description || "");
-                setBgImage3(p.livingSourceImageSection?.bgImage || null);
+                setDescription3(p.livingSourceSection?.description || p.description3 || "");
+                setBgImage3(p.livingSourceImageSection?.bgImage || p.bgImage3 || null);
 
-                setRitualSubTitle(p.theRitual?.ritSubtitle || "");
+                setRitualSubTitle(p.theRitual?.ritSubtitle || p.theRitual?.ritualSubTitle || p.ritualSubTitle || "");
                 setStep1(p.theRitual?.step1 || "");
                 setStep2(p.theRitual?.step2 || "");
                 setStep3(p.theRitual?.step3 || "");
 
-                setQuantityMl(p.productDetailsSection?.quantityMl || "");
-                setPrice(p.productDetailsSection?.price || "");
-                setCategory(p.productDetailsSection?.category || "");
-                setIngredientsMain(p.productDetailsSection?.ingredients?.join(", ") || "");
-                setShortDescription4(p.productDetailsSection?.shortDescription || "");
-                setProductImages(p.productDetailsSection?.productImages || []);
+                setQuantityMl(p.productDetailsSection?.quantityMl || p.quantityMl || "");
+                setPrice(p.productDetailsSection?.price || p.price || "");
+                setCategory(p.productDetailsSection?.category || p.heroSection?.category || p.category || "");
+
+                // Safe handling for ingredients array or string
+                const ingredientsData = p.productDetailsSection?.ingredients || p.ingredientsMain || p.ingredients;
+                setIngredientsMain(Array.isArray(ingredientsData) ? ingredientsData.join(", ") : (ingredientsData || ""));
+
+                setShortDescription4(p.productDetailsSection?.shortDescription || p.productDetailsSection?.shortDescription4 || p.shortDescription4 || "");
+                setProductImages(p.productDetailsSection?.productImages || p.productImages || []);
                 setClosingLine(p.closingLine || "");
 
-                setSec7Title(p.storySection1?.title || "Top Notes");
-                setSec7SubTitle(p.storySection1?.subTitle || "");
-                setSec7Ingredients(p.storySection1?.ingredients || "");
-                setSec7Description(p.storySection1?.description || "");
-                setBgImage4(p.storySection1?.bgImage || null);
+                setSec7Title(p.storySection1?.title || p.storySection1?.sec7Title || p.sec7Title || "Top Notes");
+                setSec7SubTitle(p.storySection1?.subTitle || p.storySection1?.sec7SubTitle || p.sec7SubTitle || "");
+                setSec7Ingredients(p.storySection1?.ingredients || p.storySection1?.sec7Ingredients || p.sec7Ingredients || "");
+                setSec7Description(p.storySection1?.description || p.storySection1?.sec7Description || p.sec7Description || "");
+                setBgImage4(p.storySection1?.bgImage || p.storySection1?.bgImage4 || p.bgImage4 || null);
 
-                setSec8Title(p.storySection2?.title || "Heart Notes");
-                setSec8SubTitle(p.storySection2?.subTitle || "");
-                setSec8Ingredients(p.storySection2?.ingredients || "");
-                setSec8Description(p.storySection2?.description || "");
-                setBgImage5(p.storySection2?.bgImage || null);
+                setSec8Title(p.storySection2?.title || p.storySection2?.sec8Title || p.sec8Title || "Heart Notes");
+                setSec8SubTitle(p.storySection2?.subTitle || p.storySection2?.sec8SubTitle || p.sec8SubTitle || "");
+                setSec8Ingredients(p.storySection2?.ingredients || p.storySection2?.sec8Ingredients || p.sec8Ingredients || "");
+                setSec8Description(p.storySection2?.description || p.storySection2?.sec8Description || p.sec8Description || "");
+                setBgImage5(p.storySection2?.bgImage || p.storySection2?.bgImage5 || p.bgImage5 || null);
 
-                setSec9Title(p.storySection3?.title || "Base Notes");
-                setSec9SubTitle(p.storySection3?.subTitle || "");
-                setSec9Ingredients(p.storySection3?.ingredients || "");
-                setSec9Description(p.storySection3?.description || "");
-                setBgImage6(p.storySection3?.bgImage || null);
+                setSec9Title(p.storySection3?.title || p.storySection3?.sec9Title || p.sec9Title || "Base Notes");
+                setSec9SubTitle(p.storySection3?.subTitle || p.storySection3?.sec9SubTitle || p.sec9SubTitle || "");
+                setSec9Ingredients(p.storySection3?.ingredients || p.storySection3?.sec9Ingredients || p.sec9Ingredients || "");
+                setSec9Description(p.storySection3?.description || p.storySection3?.sec9Description || p.sec9Description || "");
+                setBgImage6(p.storySection3?.bgImage || p.storySection3?.bgImage6 || p.bgImage6 || null);
 
-                // Handling potential legacy keys from GET response while using latest keys for state
+                // Handling multiple path/naming variations for Landling Page Section
                 setTheEssence(p.combo?.theEssence || p.combo?.theEssance || p.theEssence || "");
                 setSpiritualResonance(p.combo?.spiritualResonance || p.combo?.spritualResonance || p.spiritualResonance || "");
                 setOlfactiveStructure(p.combo?.olfactiveStructure || p.olfactiveStructure || "");
                 setWhenToWear(p.combo?.whenToWear || p.combo?.WhenToWear || p.whenToWear || "");
                 setComboImg(p.combo?.comboImg || p.comboImg || null);
+                setSec11Subtitle(p.combo?.sec11Subtitle || p.sec11Subtitle || "");
 
                 setStock(p.stock || "");
             }
@@ -361,7 +366,7 @@ const AddProduct = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
                                         <InputField placeholder="Subtitle" value={sec7SubTitle} onChange={setSec7SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec7Ingredients} onChange={setSec7Ingredients} />
-                                        <InputField placeholder="Description" value={sec7Description} onChange={setSec7Description} />
+                                        <TextAreaField placeholder="Description" value={sec7Description} onChange={setSec7Description} rows={1} />
                                         <UploadField placeholder="Image" value={bgImage4} onChange={setBgImage4} />
                                     </div>
                                 </div>
@@ -371,7 +376,7 @@ const AddProduct = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
                                         <InputField placeholder="Subtitle" value={sec8SubTitle} onChange={setSec8SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec8Ingredients} onChange={setSec8Ingredients} />
-                                        <InputField placeholder="Description" value={sec8Description} onChange={setSec8Description} />
+                                        <TextAreaField placeholder="Description" value={sec8Description} onChange={setSec8Description} rows={1} />
                                         <UploadField placeholder="Image" value={bgImage5} onChange={setBgImage5} />
                                     </div>
                                 </div>
@@ -381,7 +386,7 @@ const AddProduct = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
                                         <InputField placeholder="Subtitle" value={sec9SubTitle} onChange={setSec9SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec9Ingredients} onChange={setSec9Ingredients} />
-                                        <InputField placeholder="Description" value={sec9Description} onChange={setSec9Description} />
+                                        <TextAreaField placeholder="Description" value={sec9Description} onChange={setSec9Description} rows={1} />
                                         <UploadField placeholder="Image" value={bgImage6} onChange={setBgImage6} />
                                     </div>
                                 </div>
@@ -398,9 +403,6 @@ const AddProduct = () => {
                                     <TextAreaField label="step3" placeholder="Enter third paragraph..." value={step3} onChange={setStep3} />
                                 </div>
                             </div>
-
-                            {/* Live Preview for The Ritual */}
-
                         </Section>
 
                         {/* Pricing and Stock */}

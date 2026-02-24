@@ -7,7 +7,7 @@ import { useAddProductMutation, useUpdateProductMutation, useGetProductsQuery } 
 const InputField = ({ label, placeholder, value, onChange, type = "text", className = "" }) => (
     <div className={`flex flex-col gap-1.5 w-full ${className}`}>
         {label && <label className="text-[13px] text-[#FFFFFF] font-manrope ml-1">{label}</label>}
-        <div className="bg-[#020523] border border-white/9 rounded-lg px-4 py-4 focus-within:border-[#00D4FF]/30 transition-colors">
+        <div className="bg-[#020523] border border-white/9 rounded-lg px-4 h-[56px] flex items-center focus-within:border-[#00D4FF]/30 transition-colors">
             <input
                 type={type}
                 placeholder={placeholder}
@@ -19,11 +19,26 @@ const InputField = ({ label, placeholder, value, onChange, type = "text", classN
     </div>
 );
 
+const TextAreaField = ({ label, placeholder, value, onChange, className = "", rows = 1 }) => (
+    <div className={`flex flex-col gap-1.5 w-full ${className}`}>
+        {label && <label className="text-[13px] text-[#FFFFFF] font-manrope ml-1">{label}</label>}
+        <div className="bg-[#020523] border border-white/9 rounded-lg px-4 py-3 min-h-[56px] flex items-start focus-within:border-[#00D4FF]/30 transition-colors">
+            <textarea
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="bg-transparent w-full outline-none text-white text-[14px] font-manrope placeholder:text-[#BEBEBE] resize-y min-h-[32px]"
+                rows={rows}
+            />
+        </div>
+    </div>
+);
+
 const UploadField = ({ label, value, onChange, className = "", placeholder = "Upload", multiple = false }) => (
     <div className={`flex flex-col gap-1.5 w-full ${className}`}>
         {label && <label className="text-[13px] text-[#FFFFFF] font-manrope ml-1">{label}</label>}
-        <label className="bg-[#020523] border border-white/9 rounded-lg px-4 py-4 cursor-pointer hover:bg-white/5 transition-colors flex items-center justify-between group">
-            <div className="flex flex-col gap-1 overflow-hidden">
+        <label className="bg-[#020523] border border-white/9 rounded-lg px-4 h-[56px] flex items-center cursor-pointer hover:bg-white/5 transition-colors group">
+            <div className="flex flex-col justify-center gap-0.5 overflow-hidden w-full">
                 <span className={`text-[14px] font-manrope truncate ${value ? 'text-white' : 'text-[#BEBEBE]'}`}>
                     {value ? (multiple ? `${value.length} files` : (typeof value === 'string' ? "Uploaded" : value.name)) : placeholder}
                 </span>
@@ -83,16 +98,19 @@ const AddProduct = () => {
 
     // Olfactive Architecture
     const [sec7Title, setSec7Title] = useState("Top Notes");
+    const [sec7SubTitle, setSec7SubTitle] = useState("");
     const [sec7Ingredients, setSec7Ingredients] = useState("");
     const [sec7Description, setSec7Description] = useState("");
     const [bgImage4, setBgImage4] = useState(null);
 
     const [sec8Title, setSec8Title] = useState("Heart Notes");
+    const [sec8SubTitle, setSec8SubTitle] = useState("");
     const [sec8Ingredients, setSec8Ingredients] = useState("");
     const [sec8Description, setSec8Description] = useState("");
     const [bgImage5, setBgImage5] = useState(null);
 
     const [sec9Title, setSec9Title] = useState("Base Notes");
+    const [sec9SubTitle, setSec9SubTitle] = useState("");
     const [sec9Ingredients, setSec9Ingredients] = useState("");
     const [sec9Description, setSec9Description] = useState("");
     const [bgImage6, setBgImage6] = useState(null);
@@ -112,7 +130,7 @@ const AddProduct = () => {
 
     const [shortDescription4, setShortDescription4] = useState("");
     const [closingLine, setClosingLine] = useState("");
-
+    const [sec11Subtitle, setSec11Subtitle] = useState("");
     // Populate data from nested GET structure
     React.useEffect(() => {
         if (isEditing && productsData?.products) {
@@ -143,16 +161,19 @@ const AddProduct = () => {
                 setClosingLine(p.closingLine || "");
 
                 setSec7Title(p.storySection1?.title || "Top Notes");
+                setSec7SubTitle(p.storySection1?.subTitle || "");
                 setSec7Ingredients(p.storySection1?.ingredients || "");
                 setSec7Description(p.storySection1?.description || "");
                 setBgImage4(p.storySection1?.bgImage || null);
 
                 setSec8Title(p.storySection2?.title || "Heart Notes");
+                setSec8SubTitle(p.storySection2?.subTitle || "");
                 setSec8Ingredients(p.storySection2?.ingredients || "");
                 setSec8Description(p.storySection2?.description || "");
                 setBgImage5(p.storySection2?.bgImage || null);
 
                 setSec9Title(p.storySection3?.title || "Base Notes");
+                setSec9SubTitle(p.storySection3?.subTitle || "");
                 setSec9Ingredients(p.storySection3?.ingredients || "");
                 setSec9Description(p.storySection3?.description || "");
                 setBgImage6(p.storySection3?.bgImage || null);
@@ -201,14 +222,17 @@ const AddProduct = () => {
             formData.append("description3", description3 || description2 || description1 || productName);
 
             formData.append("sec7Title", sec7Title);
+            formData.append("sec7SubTitle", sec7SubTitle);
             formData.append("sec7Ingredients", sec7Ingredients);
             formData.append("sec7Description", sec7Description);
 
             formData.append("sec8Title", sec8Title);
+            formData.append("sec8SubTitle", sec8SubTitle);
             formData.append("sec8Ingredients", sec8Ingredients);
             formData.append("sec8Description", sec8Description);
 
             formData.append("sec9Title", sec9Title);
+            formData.append("sec9SubTitle", sec9SubTitle);
             formData.append("sec9Ingredients", sec9Ingredients);
             formData.append("sec9Description", sec9Description);
 
@@ -216,7 +240,7 @@ const AddProduct = () => {
             formData.append("step1", step1);
             formData.append("step2", step2);
             formData.append("step3", step3);
-
+            formData.append("sec11Subtitle", sec11Subtitle);
             formData.append("theEssence", theEssence);
             formData.append("spiritualResonance", spiritualResonance);
             formData.append("olfactiveStructure", olfactiveStructure);
@@ -283,7 +307,7 @@ const AddProduct = () => {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="flex flex-col gap-1.5 w-full">
                                 <label className="text-[13px] text-[#FFFFFF] font-manrope ml-1">Select Garden</label>
-                                <div className="relative bg-[#020523] border border-white/9 rounded-lg px-4 py-4">
+                                <div className="relative bg-[#020523] border border-white/9 rounded-lg px-4 h-[56px] flex items-center">
                                     <select
                                         value={gardenName}
                                         onChange={(e) => setGardenName(e.target.value)}
@@ -319,12 +343,12 @@ const AddProduct = () => {
                         {/* Description & Images Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <UploadField label="Hero Image" value={bgImage1} onChange={setBgImage1} placeholder="Upload" />
-                            <InputField label="The Essence" placeholder="Enter" value={description2} onChange={setDescription2} />
+                            <TextAreaField label="The Essence" placeholder="Enter description with line breaks..." value={description2} onChange={setDescription2} />
                             <UploadField label="Second Image" value={bgImage2} onChange={setBgImage2} placeholder="Upload" />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <InputField label="The Living Source" placeholder="Enter" value={description3} onChange={setDescription3} />
+                            <TextAreaField label="The Living Source" placeholder="Enter description with line breaks..." value={description3} onChange={setDescription3} />
                             <UploadField label="Third Image" value={bgImage3} onChange={setBgImage3} placeholder="Upload" />
                             <div className="hidden md:block" />
                         </div>
@@ -334,7 +358,8 @@ const AddProduct = () => {
                             <div className="flex flex-col gap-8">
                                 <div className="flex flex-col gap-3">
                                     <p className="text-[14px] text-white/70 font-manrope ml-1">The First Breath</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+                                        <InputField placeholder="Subtitle" value={sec7SubTitle} onChange={setSec7SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec7Ingredients} onChange={setSec7Ingredients} />
                                         <InputField placeholder="Description" value={sec7Description} onChange={setSec7Description} />
                                         <UploadField placeholder="Image" value={bgImage4} onChange={setBgImage4} />
@@ -343,7 +368,8 @@ const AddProduct = () => {
 
                                 <div className="flex flex-col gap-3">
                                     <p className="text-[14px] text-white/70 font-manrope ml-1">The Heart Awakens</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+                                        <InputField placeholder="Subtitle" value={sec8SubTitle} onChange={setSec8SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec8Ingredients} onChange={setSec8Ingredients} />
                                         <InputField placeholder="Description" value={sec8Description} onChange={setSec8Description} />
                                         <UploadField placeholder="Image" value={bgImage5} onChange={setBgImage5} />
@@ -352,7 +378,8 @@ const AddProduct = () => {
 
                                 <div className="flex flex-col gap-3">
                                     <p className="text-[14px] text-white/70 font-manrope ml-1">The Eternal Trace</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+                                        <InputField placeholder="Subtitle" value={sec9SubTitle} onChange={setSec9SubTitle} />
                                         <InputField placeholder="Ingredients" value={sec9Ingredients} onChange={setSec9Ingredients} />
                                         <InputField placeholder="Description" value={sec9Description} onChange={setSec9Description} />
                                         <UploadField placeholder="Image" value={bgImage6} onChange={setBgImage6} />
@@ -364,13 +391,16 @@ const AddProduct = () => {
                         {/* The Ritual Section */}
                         <Section title="The Ritual">
                             <div className="flex flex-col gap-6">
-                                <InputField label="Heading" placeholder="Enter" value={ritualSubTitle} onChange={setRitualSubTitle} />
+                                <TextAreaField label="Visible Section Title" placeholder="e.g. The Ritual" value={ritualSubTitle} onChange={setRitualSubTitle} rows={1} />
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <InputField label="Step 1" placeholder="Enter" value={step1} onChange={setStep1} />
-                                    <InputField label="Step 2" placeholder="Enter" value={step2} onChange={setStep2} />
-                                    <InputField label="Step 3" placeholder="text" value={step3} onChange={setStep3} />
+                                    <TextAreaField label="step1" placeholder="Enter first paragraph..." value={step1} onChange={setStep1} />
+                                    <TextAreaField label="step2" placeholder="Enter second paragraph..." value={step2} onChange={setStep2} />
+                                    <TextAreaField label="step3" placeholder="Enter third paragraph..." value={step3} onChange={setStep3} />
                                 </div>
                             </div>
+
+                            {/* Live Preview for The Ritual */}
+
                         </Section>
 
                         {/* Pricing and Stock */}
@@ -389,16 +419,52 @@ const AddProduct = () => {
                         {/* Landing Page Details */}
                         <Section title="Landing Page Section">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <UploadField label="Product Image" value={comboImg} onChange={setComboImg} placeholder="Upload" />
-                                <InputField label="The Essence" placeholder="Enter" value={theEssence} onChange={setTheEssence} />
-                                <InputField label="Spiritual Resonance" placeholder="Enter" value={spiritualResonance} onChange={setSpiritualResonance} />
+                                <UploadField
+                                    label="Product Image"
+                                    value={comboImg}
+                                    onChange={setComboImg}
+                                    placeholder="Upload"
+                                />
+
+                                <TextAreaField
+                                    label="The Essence"
+                                    placeholder="Enter description with line breaks..."
+                                    value={theEssence}
+                                    onChange={setTheEssence}
+                                />
+
+                                <InputField
+                                    label="Spiritual Resonance"
+                                    placeholder="Enter"
+                                    value={spiritualResonance}
+                                    onChange={setSpiritualResonance}
+                                />
                             </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <InputField label="Olfactive Structure" placeholder="Enter" value={olfactiveStructure} onChange={setOlfactiveStructure} />
-                                <InputField label="When To Wear" placeholder="Enter" value={whenToWear} onChange={setWhenToWear} />
+                                <InputField
+                                    label="Olfactive Structure"
+                                    placeholder="Enter"
+                                    value={olfactiveStructure}
+                                    onChange={setOlfactiveStructure}
+                                />
+
+                                <InputField
+                                    label="When To Wear"
+                                    placeholder="Enter"
+                                    value={whenToWear}
+                                    onChange={setWhenToWear}
+                                />
+
+                                {/* ✅ Newly Added Field */}
+                                <InputField
+                                    label="Landing Page Subtitle"
+                                    placeholder="Enter landing page subtext..."
+                                    value={sec11Subtitle}
+                                    onChange={setSec11Subtitle}
+                                />
                             </div>
                         </Section>
-
                         {/* Submit Button */}
                         {/* <div className="flex justify-center pt-8 pb-12 border-t border-white/10">
                             <button

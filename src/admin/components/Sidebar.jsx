@@ -11,7 +11,7 @@ const menuItems = [
   { name: "Products", path: "/admin/products", icon: "mingcute:add-circle-fill" },
   { name: "Transactions", path: "/admin/transactions", icon: "solar:bag-check-bold" },
   { name: "Messages", path: "/admin/enquiries", icon: "majesticons:messages" },
-  { name: "Blogs", path: "/admin/blog", icon: "f7:doc-text-fill" },
+  // { name: "Blogs", path: "/admin/blog", icon: "f7:doc-text-fill" },
   { name: "Gifts", path: "/admin/gifts", icon: "mdi:gift" },
 ];
 

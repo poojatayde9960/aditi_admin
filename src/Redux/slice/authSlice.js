@@ -9,6 +9,7 @@ const authSlice = createSlice({
     reducers: {
         adminLogout: (state) => {
             localStorage.removeItem("admin");
+            localStorage.removeItem("token");
             state.admin = null;
         },
     },
@@ -18,6 +19,9 @@ const authSlice = createSlice({
             (state, { payload }) => {
                 state.admin = payload;
                 localStorage.setItem("admin", JSON.stringify(payload));
+                if (payload.token) {
+                    localStorage.setItem("token", payload.token);
+                }
             }
         );
     },

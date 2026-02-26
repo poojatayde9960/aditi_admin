@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQuery } from "./auth.Api";
 
 export const enquiryApi = createApi({
     reducerPath: "enquiryApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BASE_URL,
-        credentials: "include", // if cookies/session needed
-    }),
+    baseQuery,
     tagTypes: ["enquiry"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({

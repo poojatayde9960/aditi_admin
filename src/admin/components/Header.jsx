@@ -3,15 +3,23 @@ import { Icon } from "@iconify/react";
 import { useSelector, useDispatch } from "react-redux";
 import { adminLogout } from "../../Redux/slice/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useLogoutApiMutation } from "../../Redux/Apis/auth.Api";
 
 const Header = ({ toggleSidebar, theme, setTheme }) => {
   const { admin } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
+  const [logoutApi] = useLogoutApiMutation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(adminLogout());
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+    } catch (error) {
+      console.error("Logout API failed:", error);
+    } finally {
+      dispatch(adminLogout());
+      navigate("/login");
+    }
   };
 
   // Helper to safely get the first letter

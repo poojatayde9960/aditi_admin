@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "./auth.Api"
 
 export const usersApi = createApi({
     reducerPath: "usersApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
-        credentials: "include",
-    }),
+    baseQuery,
     tagTypes: ["user"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
@@ -13,7 +11,7 @@ export const usersApi = createApi({
             getUsers: builder.query({
                 query: () => {
                     return {
-                        url: "/users",
+                        url: "/admin/users",
                         method: "GET"
                     }
                 },
@@ -21,7 +19,7 @@ export const usersApi = createApi({
             }),
             getAverageMonthlyOrders: builder.query({
                 query: () => ({
-                    url: "/order/getAverageMonthlyOrders",
+                    url: "/admin/order/getAverageMonthlyOrders",
                     method: "GET",
                 }),
                 providesTags: ["user"],

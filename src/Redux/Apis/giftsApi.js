@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "./auth.Api"
 
 export const giftsApi = createApi({
     reducerPath: "giftsApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
-        credentials: "include",
-    }),
+    baseQuery,
     tagTypes: ["gifts"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
@@ -13,7 +11,7 @@ export const giftsApi = createApi({
             getGifts: builder.query({
                 query: () => {
                     return {
-                        url: "/gift/getAll",
+                        url: "/admin/gift/getAll",
                         method: "GET"
                     }
                 },
@@ -22,7 +20,7 @@ export const giftsApi = createApi({
             addGifts: builder.mutation({
                 query: GiftsData => {
                     return {
-                        url: "/gift/AddGift",
+                        url: "/admin/gift/AddGift",
                         method: "POST",
                         body: GiftsData
                     }
@@ -32,7 +30,7 @@ export const giftsApi = createApi({
             adminGiftAssign: builder.mutation({
                 query: GiftsData => {
                     return {
-                        url: "/gift/assign",
+                        url: "/admin/gift/assign",
                         method: "POST",
                         body: GiftsData
                     }
@@ -42,7 +40,7 @@ export const giftsApi = createApi({
             updateGifts: builder.mutation({
                 query: GiftsData => {
                     return {
-                        url: `/gift/updateGift/${GiftsData.id}`,
+                        url: `/admin/gift/updateGift/${GiftsData.id}`,
                         method: "PUT",
                         body: GiftsData
                     }
@@ -52,7 +50,7 @@ export const giftsApi = createApi({
             deleteGifts: builder.mutation({
                 query: id => {
                     return {
-                        url: `/gift/deleteGift/${id}`,
+                        url: `/admin/gift/deleteGift/${id}`,
                         method: "DELETE"
                     }
                 },
@@ -60,7 +58,7 @@ export const giftsApi = createApi({
             }),
             giftGetById: builder.query({
                 query: (id) => ({
-                    url: `/gift/user/${id}`,
+                    url: `/admin/gift/user/${id}`,
                     method: "GET",
                 }),
                 providesTags: ["gifts"],

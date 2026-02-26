@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "./auth.Api"
 
 export const dashboardApi = createApi({
     reducerPath: "dashboardApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
-        credentials: "include",
-    }),
+    baseQuery,
     tagTypes: ["dashboard"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
@@ -13,7 +11,7 @@ export const dashboardApi = createApi({
             getCardstatus: builder.query({
                 query: () => {
                     return {
-                        url: "/getDashboardStat",
+                        url: "/admin/getDashboardStat",
                         method: "GET"
                     }
                 },
@@ -22,7 +20,7 @@ export const dashboardApi = createApi({
             getUserConversionRate: builder.query({
                 query: () => {
                     return {
-                        url: "/getUserConversionRate",
+                        url: "/admin/getUserConversionRate",
                         method: "GET"
                     }
                 },
@@ -32,7 +30,7 @@ export const dashboardApi = createApi({
             getTopSelling: builder.query({
                 query: () => {
                     return {
-                        url: "/topSelling",
+                        url: "/admin/topSelling",
                         method: "GET"
                     }
                 },
@@ -42,7 +40,7 @@ export const dashboardApi = createApi({
             getSaleByPercent: builder.query({
                 query: () => {
                     return {
-                        url: "/salesByPercent",
+                        url: "/admin/salesByPercent",
                         method: "GET"
                     }
                 },
@@ -52,7 +50,7 @@ export const dashboardApi = createApi({
             getSaleByMonthly: builder.query({
                 query: () => {
                     return {
-                        url: "/getMonthlySales",
+                        url: "/admin/getMonthlySales",
                         method: "GET"
                     }
                 },

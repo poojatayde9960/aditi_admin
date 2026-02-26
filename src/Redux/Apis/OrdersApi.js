@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "./auth.Api"
 
 export const OrderApi = createApi({
     reducerPath: "OrderApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BASE_URL,
-        credentials: "include",
-    }),
+    baseQuery,
     tagTypes: ["order"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {

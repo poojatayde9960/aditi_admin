@@ -1,17 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQuery } from "./auth.Api";
 
 export const productApi = createApi({
   reducerPath: "productApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
-    credentials: "include",
-  }),
+  baseQuery,
   tagTypes: ["Product"],
   refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     addProduct: builder.mutation({
       query: (body) => ({
-        url: "/product/createProduct",
+        url: "/admin/product/createProduct",
         method: "POST",
         body,
       }),
@@ -20,7 +18,7 @@ export const productApi = createApi({
 
     getProducts: builder.query({
       query: () => ({
-        url: "/product/allProducts",
+        url: "/admin/product/allProducts",
         method: "GET",
       }),
       providesTags: ["Product"],
@@ -28,7 +26,7 @@ export const productApi = createApi({
 
     deleteProduct: builder.mutation({
       query: (id) => ({
-        url: `/product/allProducts/deleteProduct/${id}`,
+        url: `/admin/product/allProducts/deleteProduct/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Product"],
@@ -36,7 +34,7 @@ export const productApi = createApi({
 
     updateProduct: builder.mutation({
       query: ({ id, body }) => ({
-        url: `/product/allProducts/updateProduct/${id}`,
+        url: `/admin/product/allProducts/updateProduct/${id}`,
         method: "PUT",
         body,
       }),

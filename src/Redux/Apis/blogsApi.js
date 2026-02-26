@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "./auth.Api"
 
 export const blogsApi = createApi({
     reducerPath: "blogsApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
-        credentials: "include",
-    }),
+    baseQuery,
     tagTypes: ["blogs"],
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => {
@@ -13,7 +11,7 @@ export const blogsApi = createApi({
             getBlogs: builder.query({
                 query: () => {
                     return {
-                        url: "/blog/getBlog",
+                        url: "/admin/blog/getBlog",
                         method: "GET"
                     }
                 },
@@ -22,7 +20,7 @@ export const blogsApi = createApi({
             addBlogs: builder.mutation({
                 query: BlogsData => {
                     return {
-                        url: "/blog/add",
+                        url: "/admin/blog/add",
                         method: "POST",
                         body: BlogsData
                     }
@@ -31,7 +29,7 @@ export const blogsApi = createApi({
             }),
             updateBlogs: builder.mutation({
                 query: ({ id, data }) => ({
-                    url: `/blog/update/${id}`,
+                    url: `/admin/blog/update/${id}`,
                     method: "PATCH",
                     body: data
                 }),
@@ -41,7 +39,7 @@ export const blogsApi = createApi({
             deleteBlogs: builder.mutation({
                 query: id => {
                     return {
-                        url: `/blog/delete/${id}`,
+                        url: `/admin/blog/delete/${id}`,
                         method: "DELETE"
                     }
                 },
